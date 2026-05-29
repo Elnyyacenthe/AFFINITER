@@ -17,7 +17,12 @@ export default async function HomePage() {
         media: { select: { url: true, isPrimary: true, type: true }, orderBy: { position: "asc" } },
         profile: { select: { isVerified: true, age: true } },
       },
-      orderBy: [{ promotedUntil: "desc" }, { publishedAt: "desc" }],
+      orderBy: [
+        { stickyUntil: { sort: "desc", nulls: "last" } },
+        { promotedUntil: "desc" },
+        { lastBumpedAt: { sort: "desc", nulls: "last" } },
+        { publishedAt: "desc" },
+      ],
       take: 10,
     }),
     prisma.ad.findMany({
@@ -27,7 +32,12 @@ export default async function HomePage() {
         media: { select: { url: true, isPrimary: true, type: true }, orderBy: { position: "asc" } },
         profile: { select: { isVerified: true, age: true } },
       },
-      orderBy: [{ tier: "desc" }, { publishedAt: "desc" }],
+      orderBy: [
+        { stickyUntil: { sort: "desc", nulls: "last" } },
+        { tier: "desc" },
+        { lastBumpedAt: { sort: "desc", nulls: "last" } },
+        { publishedAt: "desc" },
+      ],
       take: 20,
     }),
     prisma.city.findMany({

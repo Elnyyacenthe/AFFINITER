@@ -6,6 +6,7 @@ import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
+import { chargeVerificationFee } from "@/lib/actions/wallet";
 
 const submitSchema = z.object({
   documentType: z.enum(["CNI", "PASSPORT", "DRIVING_LICENSE"]),
@@ -68,6 +69,23 @@ export async function submitVerificationAction(input: unknown): Promise<Verifica
   });
   if (pending) {
     return { ok: false, error: "Une vérification est déjà en cours d'examen." };
+  }
+
+  // I8 — Vérification payante (3000 FCFA par défaut, configurable)
+  // On débite AVANT de créer la row pour éviter les fraudes par refresh.
+  // Si le user a déjà payé pour une vérification précédente refusée, on ne re-facture pas.
+  const previousPaid = await prisma.idVerification.findFirst({
+    where: { userId: session.user.id, status: "REJECTED" },
+    select: { id: true },
+  });
+  if (!previousPaid) {
+    const fee = await chargeVerificationFee(session.user.id);
+    if (!fee.ok) {
+      return {
+        ok: false,
+        error: `${fee.error}. Rechargez votre wallet pour soumettre une vérification.`,
+      };
+    }
   }
 
   const verification = await prisma.idVerification.create({

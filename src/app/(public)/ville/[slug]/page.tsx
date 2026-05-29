@@ -46,7 +46,12 @@ export default async function CityPage({
         media: { select: { url: true, isPrimary: true, type: true }, orderBy: { position: "asc" } },
         profile: { select: { isVerified: true, age: true } },
       },
-      orderBy: [{ tier: "desc" }, { promotedUntil: "desc" }],
+      orderBy: [
+        { stickyUntil: { sort: "desc", nulls: "last" } },
+        { tier: "desc" },
+        { promotedUntil: "desc" },
+        { lastBumpedAt: { sort: "desc", nulls: "last" } },
+      ],
       take: 12,
     }),
     prisma.ad.findMany({
@@ -56,7 +61,11 @@ export default async function CityPage({
         media: { select: { url: true, isPrimary: true, type: true }, orderBy: { position: "asc" } },
         profile: { select: { isVerified: true, age: true } },
       },
-      orderBy: { publishedAt: "desc" },
+      orderBy: [
+        { stickyUntil: { sort: "desc", nulls: "last" } },
+        { lastBumpedAt: { sort: "desc", nulls: "last" } },
+        { publishedAt: "desc" },
+      ],
       take: 40,
     }),
     prisma.ad.count({ where: { cityId: city.id, status: "ACTIVE" } }),
