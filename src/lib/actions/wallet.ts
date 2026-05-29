@@ -281,7 +281,8 @@ export async function checkAndApplyDepositAction(paymentId: string): Promise<
         where: { id: session.user.id },
         select: { walletBalance: true },
       });
-      revalidatePath("/portefeuille");
+      revalidatePath("/client/portefeuille");
+      revalidatePath("/escort/portefeuille");
       return { ok: true, status: "SUCCESS", balance: user?.walletBalance };
     }
     if (cls === "FAILED") {
@@ -374,7 +375,8 @@ export async function initiateWithdrawalAction(input: {
       where: { id: withdrawal.id },
       data: { providerRef: kpayResult.id },
     });
-    revalidatePath("/portefeuille");
+    revalidatePath("/client/portefeuille");
+    revalidatePath("/escort/portefeuille");
     return {
       ok: true,
       reference: kpayResult.id,
@@ -396,7 +398,8 @@ export async function initiateWithdrawalAction(input: {
       where: { id: withdrawal.id },
       data: { status: "FAILED", failureReason: msg },
     });
-    revalidatePath("/portefeuille");
+    revalidatePath("/client/portefeuille");
+    revalidatePath("/escort/portefeuille");
     return { ok: false, error: `Retrait refusé : ${msg}` };
   }
 }

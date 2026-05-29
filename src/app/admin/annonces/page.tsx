@@ -19,7 +19,14 @@ export default async function AdminAdsPage({
 }) {
   const sp = await searchParams;
   const q = sp.q ?? "";
-  const status = sp.status as Prisma.AdWhereInput["status"] | undefined;
+  const status = (sp.status ?? "") as
+    | ""
+    | "ACTIVE"
+    | "PENDING"
+    | "PAUSED"
+    | "REJECTED"
+    | "BANNED"
+    | "EXPIRED";
   const page = Math.max(1, Number(sp.page ?? "1"));
 
   const where: Prisma.AdWhereInput = {
@@ -66,7 +73,7 @@ export default async function AdminAdsPage({
         />
         <select
           name="status"
-          defaultValue={status ?? ""}
+          defaultValue={status}
           className="rounded-md border border-input bg-background px-3 text-sm"
         >
           <option value="">Tous statuts</option>

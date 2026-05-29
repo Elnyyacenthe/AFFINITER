@@ -9,7 +9,7 @@ const f = createUploadthing();
 export const ourFileRouter = {
   /** Upload de photos d'annonce (jusqu'à 10 photos, max 5 Mo l'une). */
   adPhotos: f({
-    image: { maxFileSize: "5MB", maxFileCount: 10 },
+    image: { maxFileSize: "8MB", maxFileCount: 10 },
   })
     .middleware(async () => {
       const session = await auth();
@@ -24,7 +24,7 @@ export const ourFileRouter = {
 
   /** Upload de vidéos d'annonce — courtes (max 30s recommandé). 50 Mo / vidéo, 3 max. */
   adVideos: f({
-    video: { maxFileSize: "50MB", maxFileCount: 3 },
+    video: { maxFileSize: "64MB", maxFileCount: 3 },
   })
     .middleware(async () => {
       const session = await auth();
@@ -47,7 +47,7 @@ export const ourFileRouter = {
     .onUploadComplete(async ({ metadata, file }) => ({ uploadedBy: metadata.userId, url: file.url })),
 
   /** Documents d'identité — recto, verso, selfie (3 fichiers max, 5MB l'un). */
-  verificationDocs: f({ image: { maxFileSize: "5MB", maxFileCount: 3 } })
+  verificationDocs: f({ image: { maxFileSize: "8MB", maxFileCount: 3 } })
     .middleware(async () => {
       const session = await auth();
       if (!session?.user) throw new UploadThingError("Non authentifié");

@@ -57,13 +57,15 @@ export function RegisterForm() {
   useEffect(() => {
     if (state?.ok) {
       toast.success("Compte créé 🎉");
-      // Si paiement requis → redirection vers la page de paiement
+      // Si paiement requis → redirection vers la page de paiement (escort namespace)
       if (state.nextStep?.type === "PAYMENT") {
-        router.push(`/portefeuille/payer?tier=${state.nextStep.tier}&amount=${state.nextStep.amount}`);
+        router.push(
+          `/escort/portefeuille/payer?tier=${state.nextStep.tier}&amount=${state.nextStep.amount}`,
+        );
       } else if (role === "ESCORT") {
         router.push("/escort/dashboard");
       } else {
-        router.push("/");
+        router.push("/client");
       }
       router.refresh();
     } else if (state && !state.ok) {

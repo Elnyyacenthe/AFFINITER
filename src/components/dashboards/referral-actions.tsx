@@ -18,7 +18,9 @@ export function CopyReferralCode({ code, url }: { code: string; url: string }) {
           text: `Inscris-toi sur Yamo avec mon code ${code} et reçois un bonus de bienvenue !`,
           url,
         });
-      } catch { /* l'utilisateur a annulé */ }
+      } catch {
+        /* l'utilisateur a annulé */
+      }
     } else {
       navigator.clipboard.writeText(url);
       toast.success("Lien copié");

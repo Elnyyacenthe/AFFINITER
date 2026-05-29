@@ -29,14 +29,12 @@ export function PayTierForm({ tier, amount, defaultPhone, walletBalance }: Props
   const [pending, startTransition] = useTransition();
   const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
 
-  // Polling auto pour valider tier après dépôt MoMo
   useEffect(() => {
     if (!pendingPaymentId) return;
     const interval = setInterval(async () => {
       const res = await checkAndApplyDepositAction(pendingPaymentId);
       if (res.ok && res.status === "SUCCESS") {
         clearInterval(interval);
-        // Le solde est crédité — on déclenche l'achat tier
         const buyRes = await payTierFromWalletAction({ tier });
         if (buyRes.ok) {
           toast.success(buyRes.message);
@@ -112,15 +110,15 @@ export function PayTierForm({ tier, amount, defaultPhone, walletBalance }: Props
         >
           <Wallet className="h-5 w-5 text-primary" />
           <p className="mt-1 font-bold">Portefeuille</p>
-          <p className="text-xs text-muted-foreground">
-            Solde : {formatXAF(walletBalance)}
-          </p>
+          <p className="text-xs text-muted-foreground">Solde : {formatXAF(walletBalance)}</p>
         </button>
         <button
           type="button"
           onClick={() => setMode("momo")}
           className={`rounded-lg border p-3 text-left text-sm transition ${
-            mode === "momo" ? "border-primary bg-primary/10" : "border-border hover:border-primary/40"
+            mode === "momo"
+              ? "border-primary bg-primary/10"
+              : "border-border hover:border-primary/40"
           }`}
         >
           <Smartphone className="h-5 w-5 text-primary" />

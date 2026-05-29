@@ -16,7 +16,8 @@ export async function toggleFavoriteAction(adId: string): Promise<
 
   if (existing) {
     await prisma.favorite.delete({ where: { id: existing.id } });
-    revalidatePath("/favoris");
+    revalidatePath("/client/favoris");
+    revalidatePath("/escort/favoris");
     return { ok: true, favorited: false };
   }
 

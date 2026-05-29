@@ -1,19 +1,22 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Flame, LayoutDashboard, ListChecks, User, BarChart3, CreditCard, Wallet, BadgeCheck, Gift } from "lucide-react";
+import { Flame, LayoutDashboard, Heart, Wallet, Gift, User, Search, MapPin } from "lucide-react";
 
 import { auth } from "@/auth";
+import { prisma } from "@/lib/prisma";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { SidebarNav } from "@/components/dashboard/sidebar-nav";
 import { Separator } from "@/components/ui/separator";
 import { SITE_NAME } from "@/lib/utils";
 
-export default async function EscortLayout({ children }: { children: React.ReactNode }) {
+export default async function ClientLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
-  if (!session?.user) redirect("/connexion?callbackUrl=/escort/dashboard");
-  if (session.user.role !== "ESCORT" && session.user.role !== "ADMIN") {
-    redirect("/");
-  }
+  if (!session?.user) redirect("/connexion?callbackUrl=/client");
+
+  // Compteur de favoris pour le badge sidebar
+  const favCount = await prisma.favorite.count({
+    where: { userId: session.user.id },
+  });
 
   return (
     <div className="grid min-h-screen md:grid-cols-[260px_1fr]">
@@ -27,18 +30,25 @@ export default async function EscortLayout({ children }: { children: React.React
         <Separator />
         <div className="space-y-2 p-4">
           <p className="px-3 text-xs font-semibold uppercase text-muted-foreground">
-            Espace Escort
+            Mon espace
           </p>
           <SidebarNav
             items={[
-              { href: "/escort/dashboard", label: "Vue d'ensemble", icon: LayoutDashboard },
-              { href: "/escort/annonces", label: "Mes annonces", icon: ListChecks },
-              { href: "/escort/profil", label: "Mon profil", icon: User },
-              { href: "/escort/verification", label: "Vérification ID", icon: BadgeCheck },
-              { href: "/escort/statistiques", label: "Statistiques", icon: BarChart3 },
-              { href: "/escort/premium", label: "Boost / Premium", icon: CreditCard },
-              { href: "/escort/portefeuille", label: "Portefeuille", icon: Wallet },
-              { href: "/escort/parrainage", label: "Parrainage", icon: Gift },
+              { href: "/client", label: "Vue d'ensemble", icon: LayoutDashboard },
+              { href: "/client/favoris", label: "Mes favoris", icon: Heart, badge: favCount },
+              { href: "/client/portefeuille", label: "Portefeuille", icon: Wallet },
+              { href: "/client/parrainage", label: "Parrainage", icon: Gift },
+              { href: "/client/compte", label: "Mon compte", icon: User },
+            ]}
+          />
+          <Separator className="my-4" />
+          <p className="px-3 text-xs font-semibold uppercase text-muted-foreground">
+            Explorer
+          </p>
+          <SidebarNav
+            items={[
+              { href: "/recherche", label: "Rechercher", icon: Search },
+              { href: "/villes", label: "Toutes les villes", icon: MapPin },
             ]}
           />
           <Separator className="my-4" />
