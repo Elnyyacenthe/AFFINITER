@@ -21,9 +21,12 @@ export function LoginForm() {
   useEffect(() => {
     if (state?.ok) {
       toast.success("Connexion réussie 👋");
-      // Hard navigation immédiate — le cookie de session est dans la réponse
-      // du server action, le browser le rejoue donc sur la prochaine requête.
-      window.location.assign("/");
+      // Le serveur a déterminé où renvoyer l'utilisateur selon son rôle :
+      //   - ADMIN/MODERATOR → "/admin" (interne)
+      //   - ESCORT          → "https://dashboard.yamo.cm/escort/dashboard" (externe)
+      //   - CLIENT          → "https://dashboard.yamo.cm/client" (externe)
+      const target = state.redirectTo ?? "/";
+      window.location.assign(target);
     } else if (state && !state.ok) {
       toast.error(state.error);
     }

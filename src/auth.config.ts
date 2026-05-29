@@ -16,9 +16,13 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user;
       const role = auth?.user?.role;
 
+      // Ce projet (yamo public) contient :
+      //   - les pages marketing publiques
+      //   - /admin/* (interne, ADMIN/MODERATOR uniquement)
+      //   - /(auth)/* (connexion, inscription)
+      //   - /poster-une-annonce (réservé ESCORT)
+      // Les dashboards CLIENT et ESCORT sont externes (dashboard.yamo.cm).
       const isOnAdmin = nextUrl.pathname.startsWith("/admin");
-      const isOnEscort = nextUrl.pathname.startsWith("/escort");
-      const isOnClient = nextUrl.pathname.startsWith("/client");
       const isOnPost = nextUrl.pathname.startsWith("/poster-une-annonce");
       const isOnAuth =
         nextUrl.pathname.startsWith("/connexion") || nextUrl.pathname.startsWith("/inscription");
@@ -26,25 +30,17 @@ export const authConfig = {
       if (isOnAdmin) {
         return isLoggedIn && (role === "ADMIN" || role === "MODERATOR");
       }
-      if (isOnEscort) {
-        return isLoggedIn && (role === "ESCORT" || role === "ADMIN");
-      }
-      if (isOnClient) {
-        // Tout utilisateur connecté peut accéder à /client/* — l'escort peut aussi
-        // si elle veut consulter son côté "spectateur"
-        return isLoggedIn;
-      }
       if (isOnPost) {
         return isLoggedIn;
       }
       if (isOnAuth && isLoggedIn) {
-        const dest =
-          role === "ADMIN" || role === "MODERATOR"
-            ? "/admin"
-            : role === "ESCORT"
-              ? "/escort/dashboard"
-              : "/client";
-        return Response.redirect(new URL(dest, nextUrl));
+        // ADMIN reste sur yamo.cm/admin ; les autres rôles vont sur le dashboard externe.
+        // Tous les redirects externes se font côté client après login (cf. login-form.tsx).
+        // Ici on ne redirige que les ADMIN car ils sont internes.
+        if (role === "ADMIN" || role === "MODERATOR") {
+          return Response.redirect(new URL("/admin", nextUrl));
+        }
+        // Pour ESCORT/CLIENT, on laisse passer — le composant client fera le redirect externe.
       }
       return true;
     },

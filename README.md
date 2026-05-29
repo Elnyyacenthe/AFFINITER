@@ -1,6 +1,17 @@
-# Yamo — Plateforme d'annonces escorts au Cameroun
+# Yamo — Site public + Administration
 
-Plateforme N°1 d'annonces escorts / ndolo au Cameroun. Inspirée de Labiby.com et Yamohub.com.
+Plateforme N°1 d'annonces escorts / ndolo au Cameroun. Ce repo héberge :
+
+| Partie | Routes | Pour qui |
+|--------|--------|----------|
+| **Site public** | `/`, `/recherche`, `/ville/[slug]`, `/annonce/[slug]`, `/tarifs`, `/poster-une-annonce`, légal | Tout le monde + ESCORT |
+| **Authentification** | `/connexion`, `/inscription` | Tous |
+| **Administration** | `/admin/*` | ADMIN + MODERATOR |
+
+L'espace **dashboard utilisateur** (ESCORT + CLIENT) est dans un repo séparé :
+👉 [github.com/Elnyyacenthe/Dashboard_YAMO](https://github.com/Elnyyacenthe/Dashboard_YAMO) (hébergé sur `dashboard.yamo.cm`)
+
+Les sessions Auth.js sont partagées via le même `AUTH_SECRET` et un cookie sur le domaine racine `.yamo.cm`.
 
 > ⚠️ **18+ uniquement.** Site réservé à un public adulte majeur consentant.
 

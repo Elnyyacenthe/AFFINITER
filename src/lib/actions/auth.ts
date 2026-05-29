@@ -11,10 +11,22 @@ import { signIn, signOut } from "@/auth";
 import { signUpSchema, signInSchema } from "@/lib/validations/auth";
 import { rateLimit, RL } from "@/lib/rate-limit";
 import { applyWalletDelta, getSettingNumber } from "@/lib/actions/wallet";
+import { getDashboardNamespace } from "@/lib/dashboard-namespace";
+import type { Role } from "@prisma/client";
 
 export type AuthState =
-  | { ok: true; nextStep?: { type: "PAYMENT"; tier: "PREMIUM" | "VIP"; amount: number } }
+  | {
+      ok: true;
+      /** URL où le client doit naviguer après login (interne /admin OU externe dashboard.yamo.cm). */
+      redirectTo?: string;
+      nextStep?: { type: "PAYMENT"; tier: "PREMIUM" | "VIP"; amount: number };
+    }
   | { ok: false; error: string; fieldErrors?: Record<string, string[]> };
+
+/** Construit l'URL de redirection finale selon le rôle après login. */
+function destinationForRole(role: Role): string {
+  return getDashboardNamespace(role);
+}
 
 /** Génère un code parrainage unique format YAMO-XXXX. */
 function generateReferralCode(): string {
@@ -47,7 +59,19 @@ export async function loginAction(_prev: AuthState | null, formData: FormData): 
 
   try {
     await signIn("credentials", { ...parsed.data, redirect: false });
-    return { ok: true };
+    // On lit le rôle réel depuis la DB pour calculer la destination
+    const isEmail = parsed.data.identifier.includes("@");
+    const cleanedPhone = parsed.data.identifier
+      .replace(/\s/g, "")
+      .replace(/^237/, "+237");
+    const user = await prisma.user.findFirst({
+      where: isEmail
+        ? { email: parsed.data.identifier }
+        : { phone: cleanedPhone },
+      select: { role: true },
+    });
+    const redirectTo = user ? destinationForRole(user.role) : "/";
+    return { ok: true, redirectTo };
   } catch (e) {
     if (e instanceof AuthError) {
       return { ok: false, error: "Identifiants invalides" };
@@ -155,14 +179,20 @@ export async function registerAction(_prev: AuthState | null, formData: FormData
   // Auto-login
   await signIn("credentials", { identifier: email, password, redirect: false });
 
-  // Si tier payant choisi → étape paiement
+  // Si tier payant choisi → étape paiement (côté dashboard externe)
   if (role === "ESCORT" && (tier === "PREMIUM" || tier === "VIP")) {
     const priceKey = tier === "VIP" ? "pricing.vip.amount" : "pricing.premium.amount";
     const amount = await getSettingNumber(priceKey, tier === "VIP" ? 15000 : 5000);
-    return { ok: true, nextStep: { type: "PAYMENT", tier, amount } };
+    const dashboardBase =
+      process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://dashboard.yamo.cm";
+    return {
+      ok: true,
+      redirectTo: `${dashboardBase}/escort/portefeuille/payer?tier=${tier}&amount=${amount}`,
+      nextStep: { type: "PAYMENT", tier, amount },
+    };
   }
 
-  return { ok: true };
+  return { ok: true, redirectTo: destinationForRole(role) };
 }
 
 export async function logoutAction() {

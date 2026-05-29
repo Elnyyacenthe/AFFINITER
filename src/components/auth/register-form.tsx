@@ -58,18 +58,12 @@ export function RegisterForm() {
   useEffect(() => {
     if (state?.ok) {
       toast.success("Compte créé 🎉");
-      // Hard nav pour propager le cookie de session immédiatement
-      const target =
-        state.nextStep?.type === "PAYMENT"
-          ? `/escort/portefeuille/payer?tier=${state.nextStep.tier}&amount=${state.nextStep.amount}`
-          : role === "ESCORT"
-            ? "/escort/dashboard"
-            : "/client";
-      window.location.assign(target);
+      // Le serveur a déjà construit l'URL cible (interne /admin OU externe dashboard.yamo.cm).
+      window.location.assign(state.redirectTo ?? "/");
     } else if (state && !state.ok) {
       toast.error(state.error);
     }
-  }, [state, role]);
+  }, [state]);
 
   return (
     <Card className="border-primary/20">

@@ -83,10 +83,14 @@ export async function Header() {
           )}
           {user?.role === "CLIENT" && (
             <Button asChild variant="accent" size="sm" className="hidden sm:inline-flex">
-              <Link href="/client/devenir-escort">
+              <a
+                href={`${process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://dashboard.yamo.cm"}/client/devenir-escort`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Plus className="mr-1" />
-                Devenir escort
-              </Link>
+                Devenir escort ↗
+              </a>
             </Button>
           )}
           {user?.role === "ESCORT" && (
@@ -111,44 +115,50 @@ export async function Header() {
                 </button>
               </DropdownMenuTrigger>
               {/* Routing par rôle :
-                  - ADMIN/MODERATOR → /admin
-                  - ESCORT          → /escort/*
-                  - CLIENT          → /client/*  */}
+                  - ADMIN/MODERATOR → /admin (interne)
+                  - ESCORT / CLIENT → dashboard.yamo.cm (externe, nouvelle fenêtre/tab)
+                  La constante DASHBOARD_BASE est définie via env. */}
               {(() => {
-                const ns =
-                  user.role === "ADMIN" || user.role === "MODERATOR"
-                    ? null
-                    : user.role === "ESCORT"
-                      ? "/escort"
-                      : "/client";
+                const dashboardBase =
+                  process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://dashboard.yamo.cm";
+                const isExternal =
+                  user.role === "ESCORT" || user.role === "CLIENT";
+                const nsRoot = user.role === "ESCORT" ? "/escort" : "/client";
+                const nsUrl = isExternal ? `${dashboardBase}${nsRoot}` : null;
+
                 return (
                   <DropdownMenuContent align="end" className="w-60">
                     <DropdownMenuLabel>{user.name ?? user.email}</DropdownMenuLabel>
-                    {ns && (
+                    {nsUrl && (
                       <DropdownMenuItem asChild>
-                        <Link href={`${ns}/portefeuille`} className="flex justify-between">
+                        <a
+                          href={`${nsUrl}/portefeuille`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex justify-between"
+                        >
                           <span className="flex items-center gap-2">
-                            <Wallet className="h-4 w-4" /> Portefeuille
+                            <Wallet className="h-4 w-4" /> Portefeuille ↗
                           </span>
                           <span className="text-xs font-bold text-primary">
                             {formatXAF(dbUser?.walletBalance ?? 0)}
                           </span>
-                        </Link>
+                        </a>
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuSeparator />
-                    {user.role === "ESCORT" && (
+                    {user.role === "ESCORT" && nsUrl && (
                       <DropdownMenuItem asChild>
-                        <Link href="/escort/dashboard">
-                          <LayoutDashboard className="h-4 w-4" /> Mon dashboard
-                        </Link>
+                        <a href={`${nsUrl}/dashboard`} target="_blank" rel="noopener noreferrer">
+                          <LayoutDashboard className="h-4 w-4" /> Mon dashboard ↗
+                        </a>
                       </DropdownMenuItem>
                     )}
-                    {user.role === "CLIENT" && (
+                    {user.role === "CLIENT" && nsUrl && (
                       <DropdownMenuItem asChild>
-                        <Link href="/client">
-                          <LayoutDashboard className="h-4 w-4" /> Mon espace
-                        </Link>
+                        <a href={nsUrl} target="_blank" rel="noopener noreferrer">
+                          <LayoutDashboard className="h-4 w-4" /> Mon espace ↗
+                        </a>
                       </DropdownMenuItem>
                     )}
                     {(user.role === "ADMIN" || user.role === "MODERATOR") && (
@@ -158,22 +168,22 @@ export async function Header() {
                         </Link>
                       </DropdownMenuItem>
                     )}
-                    {ns && (
+                    {nsUrl && (
                       <>
                         <DropdownMenuItem asChild>
-                          <Link href={`${ns}/favoris`}>
-                            <Heart className="h-4 w-4" /> Mes favoris
-                          </Link>
+                          <a href={`${nsUrl}/favoris`} target="_blank" rel="noopener noreferrer">
+                            <Heart className="h-4 w-4" /> Mes favoris ↗
+                          </a>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href={`${ns}/parrainage`}>
-                            <Gift className="h-4 w-4" /> Parrainage
-                          </Link>
+                          <a href={`${nsUrl}/parrainage`} target="_blank" rel="noopener noreferrer">
+                            <Gift className="h-4 w-4" /> Parrainage ↗
+                          </a>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href={`${ns}/compte`}>
-                            <User className="h-4 w-4" /> Mon compte
-                          </Link>
+                          <a href={`${nsUrl}/compte`} target="_blank" rel="noopener noreferrer">
+                            <User className="h-4 w-4" /> Mon compte ↗
+                          </a>
                         </DropdownMenuItem>
                       </>
                     )}
