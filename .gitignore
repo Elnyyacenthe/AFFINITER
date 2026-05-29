@@ -21,6 +21,7 @@ Thumbs.db
 next-env.d.ts
 .turbo
 .vercel
+*.tsbuildinfo
 
 prisma/migrations/dev.db*
 
