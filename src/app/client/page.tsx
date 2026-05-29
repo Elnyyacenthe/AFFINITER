@@ -74,6 +74,27 @@ export default async function ClientDashboardPage() {
         />
       </div>
 
+      {/* Upgrade Escort — appel à l'action principal pour un CLIENT */}
+      <Card className="border-amber-500/40 bg-gradient-to-br from-amber-500/15 via-card to-primary/10">
+        <CardContent className="flex flex-col items-center gap-3 p-6 text-center md:flex-row md:text-left">
+          <Sparkles className="h-10 w-10 text-amber-400" />
+          <div className="flex-1">
+            <h3 className="font-display text-lg font-bold">
+              Vous voulez publier des annonces ?
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              Passez côté <span className="gradient-text font-bold">Escort</span> en quelques clics et accédez
+              au dashboard, statistiques, options Premium, retraits MoMo…
+            </p>
+          </div>
+          <Button asChild size="lg">
+            <Link href="/client/devenir-escort">
+              <Sparkles className="h-4 w-4" /> Devenir escort
+            </Link>
+          </Button>
+        </CardContent>
+      </Card>
+
       <Card className="border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10">
         <CardContent className="flex flex-col items-center gap-3 p-6 text-center md:flex-row md:text-left">
           <Gift className="h-10 w-10 text-primary" />

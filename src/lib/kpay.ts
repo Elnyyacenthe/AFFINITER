@@ -80,12 +80,15 @@ export interface InitDepositInput {
   customerEmail?: string;
   customerName?: string;
   metadata?: Record<string, unknown>;
+  /** Si non fourni, détecté automatiquement depuis le numéro. */
+  paymentMethod?: KpayPaymentMethod;
 }
 
 export interface InitWithdrawalInput {
   amount: number;
   phoneNumber: string;
   description?: string;
+  paymentMethod?: KpayPaymentMethod;
 }
 
 // =====================================================================
@@ -99,6 +102,39 @@ export function normalizePhoneForKpay(phone: string): string {
   if (digits.startsWith("6") && digits.length === 9) return "237" + digits;
   if (digits.length === 9) return "237" + digits;
   return digits;
+}
+
+/**
+ * Détecte l'opérateur (MTN ou Orange) à partir d'un numéro Cameroun normalisé.
+ *
+ * Plages actuelles (CRTC Cameroun) :
+ *   - MTN Cameroon  : 67X, 68X, 650-654
+ *   - Orange Cameroon : 69X, 655-659
+ *
+ * En cas d'ambiguïté ou de prefix inconnu → MTN par défaut (couverture la plus large).
+ */
+export type KpayPaymentMethod = "MTN_MONEY" | "ORANGE_MONEY";
+
+export function detectPaymentMethod(phone: string): KpayPaymentMethod {
+  const normalized = normalizePhoneForKpay(phone);
+  // On s'attend à un numéro de 12 chiffres commençant par 237
+  if (!normalized.startsWith("237") || normalized.length !== 12) return "MTN_MONEY";
+
+  const prefix2 = normalized.slice(3, 5); // 2 chiffres après 237
+  const prefix3 = normalized.slice(3, 6); // 3 chiffres après 237
+
+  // MTN : 67X, 68X
+  if (prefix2 === "67" || prefix2 === "68") return "MTN_MONEY";
+  // Orange : 69X
+  if (prefix2 === "69") return "ORANGE_MONEY";
+  // 650-654 → MTN, 655-659 → Orange
+  if (prefix3.startsWith("65")) {
+    const last = Number(prefix3[2]);
+    if (last >= 0 && last <= 4) return "MTN_MONEY";
+    if (last >= 5 && last <= 9) return "ORANGE_MONEY";
+  }
+  // Fallback
+  return "MTN_MONEY";
 }
 
 /** ID externe unique pour idempotence côté K-Pay et anti-double-paiement. */
@@ -121,10 +157,14 @@ export function isKpayConfigured(): boolean {
  * qui valide depuis son app MoMo/Orange. Retourne l'id K-Pay (pay_xxx).
  */
 export async function initDeposit(input: InitDepositInput): Promise<KpayPayment> {
+  // Auto-détection du paymentMethod si pas fourni explicitement
+  const paymentMethod = input.paymentMethod ?? detectPaymentMethod(input.phoneNumber);
+
   const body = {
     amount: input.amount,
     phoneNumber: input.phoneNumber,
     externalId: input.externalId,
+    paymentMethod,
     description: input.description ?? `Dépôt de ${input.amount} FCFA sur Yamo`,
     ...(input.customerEmail && { customerEmail: input.customerEmail }),
     ...(input.customerName && { customerName: input.customerName }),
@@ -178,9 +218,12 @@ export async function getDepositStatus(paymentId: string): Promise<KpayPayment> 
 // =====================================================================
 
 export async function initWithdrawal(input: InitWithdrawalInput): Promise<KpayPayment> {
+  const paymentMethod = input.paymentMethod ?? detectPaymentMethod(input.phoneNumber);
+
   const body = {
     amount: input.amount,
     phoneNumber: input.phoneNumber,
+    paymentMethod,
     description: input.description ?? `Retrait Yamo de ${input.amount} FCFA`,
   };
 

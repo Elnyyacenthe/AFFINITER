@@ -1,9 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
-import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
 import Link from "next/link";
-import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -14,18 +12,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { loginAction, type AuthState } from "@/lib/actions/auth";
 
 export function LoginForm() {
-  const router = useRouter();
   const [state, formAction, pending] = useActionState<AuthState | null, FormData>(loginAction, null);
+  // Une fois la connexion confirmée, on bloque la UI et on fait une nav "dure"
+  // (window.location) qui propage le cookie de session côté serveur. Plus rapide
+  // et plus fiable que router.push + router.refresh.
+  const redirecting = state?.ok === true;
 
   useEffect(() => {
     if (state?.ok) {
       toast.success("Connexion réussie 👋");
-      router.push("/");
-      router.refresh();
+      // Hard navigation immédiate — le cookie de session est dans la réponse
+      // du server action, le browser le rejoue donc sur la prochaine requête.
+      window.location.assign("/");
     } else if (state && !state.ok) {
       toast.error(state.error);
     }
-  }, [state, router]);
+  }, [state]);
 
   return (
     <Card className="border-primary/20">
@@ -63,9 +65,9 @@ export function LoginForm() {
               <p className="text-xs text-destructive">{state.fieldErrors.password[0]}</p>
             )}
           </div>
-          <Button type="submit" disabled={pending} className="w-full" size="lg">
-            {pending && <Loader2 className="h-4 w-4 animate-spin" />}
-            Se connecter
+          <Button type="submit" disabled={pending || redirecting} className="w-full" size="lg">
+            {(pending || redirecting) && <Loader2 className="h-4 w-4 animate-spin" />}
+            {redirecting ? "Redirection…" : pending ? "Connexion…" : "Se connecter"}
           </Button>
           <p className="text-center text-sm text-muted-foreground">
             Pas encore de compte ?{" "}

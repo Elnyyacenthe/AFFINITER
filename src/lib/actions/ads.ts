@@ -97,6 +97,14 @@ export async function createAdAction(
   const rl = rateLimit(`ad-create:${ip}`, RL.adCreate);
   if (!rl.success) return { ok: false, error: "Limite atteinte : 3 annonces par heure" };
 
+  // Seuls les ESCORT (et ADMIN pour les tests) peuvent publier
+  if (session.user.role !== "ESCORT" && session.user.role !== "ADMIN") {
+    return {
+      ok: false,
+      error: "Seuls les comptes Escort peuvent publier des annonces. Convertissez votre compte d'abord.",
+    };
+  }
+
   // Construction de l'objet brut depuis FormData
   const raw = {
     title: formData.get("title"),
@@ -138,13 +146,8 @@ export async function createAdAction(
     });
   }
 
-  // Promouvoir l'user en ESCORT s'il était CLIENT
-  if (session.user.role === "CLIENT") {
-    await prisma.user.update({
-      where: { id: session.user.id },
-      data: { role: "ESCORT" },
-    });
-  }
+  // (Plus de promotion automatique CLIENT → ESCORT depuis le formulaire d'annonce :
+  //  le passage doit désormais être fait explicitement via /client/devenir-escort)
 
   const baseSlug = slugify(data.title).slice(0, 60);
   const slug = `${baseSlug}-${Date.now().toString(36)}`;

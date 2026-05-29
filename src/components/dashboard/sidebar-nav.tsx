@@ -2,13 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+/**
+ * NavItem.icon est un `React.ReactNode` (un JSX déjà rendu : `<MyIcon className="..."/>`)
+ * et NON un composant. En Next 15 / React 19, on ne peut pas passer un composant
+ * (fonction / classe) d'un Server Component vers un Client Component — seuls les
+ * éléments React sérialisables sont autorisés.
+ */
 export interface NavItem {
   href: string;
   label: string;
-  icon: LucideIcon;
+  icon: React.ReactNode;
   badge?: number;
 }
 
@@ -19,7 +24,6 @@ export function SidebarNav({ items }: { items: NavItem[] }) {
     <nav className="space-y-1">
       {items.map((item) => {
         const active = pathname === item.href || pathname.startsWith(item.href + "/");
-        const Icon = item.icon;
         return (
           <Link
             key={item.href}
@@ -32,7 +36,7 @@ export function SidebarNav({ items }: { items: NavItem[] }) {
             )}
           >
             <span className="flex items-center gap-3">
-              <Icon className="h-4 w-4" />
+              {item.icon}
               {item.label}
             </span>
             {item.badge !== undefined && item.badge > 0 && (

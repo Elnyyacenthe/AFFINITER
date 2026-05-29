@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cache } from "react";
 import { Flame, Plus, Search, User, LayoutDashboard, Shield, Wallet, Heart, Gift } from "lucide-react";
 
 import { prisma } from "@/lib/prisma";
@@ -6,6 +7,18 @@ import { formatXAF } from "@/lib/utils";
 
 import { auth } from "@/auth";
 import { LogoutButton } from "@/components/auth/logout-button";
+
+/**
+ * `cache()` dédoublonne automatiquement les appels identiques pendant une
+ * même requête HTTP. Si plusieurs Server Components demandent le solde, on
+ * fait une seule query Prisma au lieu de N. Évite aussi 2x auth().
+ */
+const getWalletBalance = cache(async (userId: string) => {
+  return prisma.user.findUnique({
+    where: { id: userId },
+    select: { walletBalance: true },
+  });
+});
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -22,13 +35,8 @@ export async function Header() {
   const session = await auth();
   const user = session?.user;
 
-  // Solde wallet à afficher dans le menu (server-side)
-  const dbUser = user
-    ? await prisma.user.findUnique({
-        where: { id: user.id },
-        select: { walletBalance: true },
-      })
-    : null;
+  // Solde wallet à afficher dans le menu (dédoublonné via React cache)
+  const dbUser = user ? await getWalletBalance(user.id) : null;
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/50 bg-background/80 backdrop-blur-lg">
@@ -60,10 +68,28 @@ export async function Header() {
             </Link>
           </Button>
 
-          {/* CTA "Poster une annonce" — caché pour ADMIN et MODERATOR
-              (ils gèrent le site, ne postent pas).
-              Pour CLIENT, le clic déclenche un auto-upgrade en ESCORT. */}
-          {(!user || user.role === "CLIENT" || user.role === "ESCORT") && (
+          {/* CTA adapté au rôle :
+              - Visiteur          → "Devenir escort" (inscription role=ESCORT)
+              - CLIENT connecté   → "Devenir escort" (upgrade compte → /client/devenir-escort)
+              - ESCORT            → "Poster une annonce"
+              - ADMIN / MODERATOR → rien */}
+          {!user && (
+            <Button asChild variant="accent" size="sm" className="hidden sm:inline-flex">
+              <Link href="/inscription?role=ESCORT">
+                <Plus className="mr-1" />
+                Devenir escort
+              </Link>
+            </Button>
+          )}
+          {user?.role === "CLIENT" && (
+            <Button asChild variant="accent" size="sm" className="hidden sm:inline-flex">
+              <Link href="/client/devenir-escort">
+                <Plus className="mr-1" />
+                Devenir escort
+              </Link>
+            </Button>
+          )}
+          {user?.role === "ESCORT" && (
             <Button asChild variant="accent" size="sm" className="hidden sm:inline-flex">
               <Link href="/poster-une-annonce">
                 <Plus className="mr-1" />

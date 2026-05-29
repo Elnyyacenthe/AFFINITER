@@ -34,11 +34,11 @@ export default async function ClientLayout({ children }: { children: React.React
           </p>
           <SidebarNav
             items={[
-              { href: "/client", label: "Vue d'ensemble", icon: LayoutDashboard },
-              { href: "/client/favoris", label: "Mes favoris", icon: Heart, badge: favCount },
-              { href: "/client/portefeuille", label: "Portefeuille", icon: Wallet },
-              { href: "/client/parrainage", label: "Parrainage", icon: Gift },
-              { href: "/client/compte", label: "Mon compte", icon: User },
+              { href: "/client", label: "Vue d'ensemble", icon: <LayoutDashboard className="h-4 w-4" /> },
+              { href: "/client/favoris", label: "Mes favoris", icon: <Heart className="h-4 w-4" />, badge: favCount },
+              { href: "/client/portefeuille", label: "Portefeuille", icon: <Wallet className="h-4 w-4" /> },
+              { href: "/client/parrainage", label: "Parrainage", icon: <Gift className="h-4 w-4" /> },
+              { href: "/client/compte", label: "Mon compte", icon: <User className="h-4 w-4" /> },
             ]}
           />
           <Separator className="my-4" />
@@ -47,8 +47,8 @@ export default async function ClientLayout({ children }: { children: React.React
           </p>
           <SidebarNav
             items={[
-              { href: "/recherche", label: "Rechercher", icon: Search },
-              { href: "/villes", label: "Toutes les villes", icon: MapPin },
+              { href: "/recherche", label: "Rechercher", icon: <Search className="h-4 w-4" /> },
+              { href: "/villes", label: "Toutes les villes", icon: <MapPin className="h-4 w-4" /> },
             ]}
           />
           <Separator className="my-4" />

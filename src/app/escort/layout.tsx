@@ -31,14 +31,14 @@ export default async function EscortLayout({ children }: { children: React.React
           </p>
           <SidebarNav
             items={[
-              { href: "/escort/dashboard", label: "Vue d'ensemble", icon: LayoutDashboard },
-              { href: "/escort/annonces", label: "Mes annonces", icon: ListChecks },
-              { href: "/escort/profil", label: "Mon profil", icon: User },
-              { href: "/escort/verification", label: "Vérification ID", icon: BadgeCheck },
-              { href: "/escort/statistiques", label: "Statistiques", icon: BarChart3 },
-              { href: "/escort/premium", label: "Boost / Premium", icon: CreditCard },
-              { href: "/escort/portefeuille", label: "Portefeuille", icon: Wallet },
-              { href: "/escort/parrainage", label: "Parrainage", icon: Gift },
+              { href: "/escort/dashboard", label: "Vue d'ensemble", icon: <LayoutDashboard className="h-4 w-4" /> },
+              { href: "/escort/annonces", label: "Mes annonces", icon: <ListChecks className="h-4 w-4" /> },
+              { href: "/escort/profil", label: "Mon profil", icon: <User className="h-4 w-4" /> },
+              { href: "/escort/verification", label: "Vérification ID", icon: <BadgeCheck className="h-4 w-4" /> },
+              { href: "/escort/statistiques", label: "Statistiques", icon: <BarChart3 className="h-4 w-4" /> },
+              { href: "/escort/premium", label: "Boost / Premium", icon: <CreditCard className="h-4 w-4" /> },
+              { href: "/escort/portefeuille", label: "Portefeuille", icon: <Wallet className="h-4 w-4" /> },
+              { href: "/escort/parrainage", label: "Parrainage", icon: <Gift className="h-4 w-4" /> },
             ]}
           />
           <Separator className="my-4" />

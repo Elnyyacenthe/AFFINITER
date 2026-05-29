@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Loader2, Crown, Star, Check } from "lucide-react";
 import { toast } from "sonner";
@@ -42,7 +42,6 @@ const TIERS = [
 ];
 
 export function RegisterForm() {
-  const router = useRouter();
   const params = useSearchParams();
   const defaultRole = params.get("role") === "ESCORT" ? "ESCORT" : "CLIENT";
   const refParam = params.get("ref") ?? "";
@@ -54,24 +53,23 @@ export function RegisterForm() {
     null,
   );
 
+  const redirecting = state?.ok === true;
+
   useEffect(() => {
     if (state?.ok) {
       toast.success("Compte créé 🎉");
-      // Si paiement requis → redirection vers la page de paiement (escort namespace)
-      if (state.nextStep?.type === "PAYMENT") {
-        router.push(
-          `/escort/portefeuille/payer?tier=${state.nextStep.tier}&amount=${state.nextStep.amount}`,
-        );
-      } else if (role === "ESCORT") {
-        router.push("/escort/dashboard");
-      } else {
-        router.push("/client");
-      }
-      router.refresh();
+      // Hard nav pour propager le cookie de session immédiatement
+      const target =
+        state.nextStep?.type === "PAYMENT"
+          ? `/escort/portefeuille/payer?tier=${state.nextStep.tier}&amount=${state.nextStep.amount}`
+          : role === "ESCORT"
+            ? "/escort/dashboard"
+            : "/client";
+      window.location.assign(target);
     } else if (state && !state.ok) {
       toast.error(state.error);
     }
-  }, [state, role, router]);
+  }, [state, role]);
 
   return (
     <Card className="border-primary/20">
@@ -189,8 +187,23 @@ export function RegisterForm() {
               <Checkbox id="acceptTerms" name="acceptTerms" required />
               <Label htmlFor="acceptTerms" className="text-xs leading-tight">
                 J'accepte les{" "}
-                <Link href="/cgu" className="text-primary hover:underline">CGU</Link> et la{" "}
-                <Link href="/confidentialite" className="text-primary hover:underline">politique de confidentialité</Link>.
+                <a
+                  href="/cgu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  CGU ↗
+                </a>{" "}
+                et la{" "}
+                <a
+                  href="/confidentialite"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  politique de confidentialité ↗
+                </a>.
               </Label>
             </div>
           </div>
