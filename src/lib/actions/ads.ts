@@ -10,6 +10,7 @@ import { auth } from "@/auth";
 import { adSchema, adFilterSchema, type AdFilter } from "@/lib/validations/ad";
 import { rateLimit, RL } from "@/lib/rate-limit";
 import { slugify, hashString } from "@/lib/utils";
+import { getSettingNumber } from "@/lib/settings";
 
 const PER_PAGE = 24;
 
@@ -162,9 +163,7 @@ export async function createAdAction(
   const videoUrls = formData.getAll("videoUrls").map(String).filter(Boolean);
 
   // I6 — Cap photos selon le tier (annonce nouvelle = STANDARD au départ)
-  // L'escort pourra publier plus de photos après avoir upgradé son tier.
-  const { getPhotoCapForTier } = await import("@/lib/actions/wallet");
-  const photoCap = await getPhotoCapForTier("STANDARD");
+  const photoCap = await getSettingNumber("photos.cap.standard", 3);
   if (photoUrls.length > photoCap) {
     return {
       ok: false,
@@ -269,4 +268,31 @@ export async function trackAdView(adId: string) {
 
 export async function trackWhatsAppClick(adId: string) {
   await prisma.ad.update({ where: { id: adId }, data: { whatsappClicks: { increment: 1 } } });
+}
+
+
+// =====================================================================
+// AUTO-RENEW : toggle opt-in (renouvellement automatique par cron)
+// =====================================================================
+export async function setAutoRenewAction(input: {
+  adId: string;
+  enabled: boolean;
+}): Promise<{ ok: true } | { ok: false; error: string }> {
+  const session = await auth();
+  if (!session?.user) return { ok: false, error: "Non authentifié" };
+
+  const ad = await prisma.ad.findUnique({
+    where: { id: input.adId },
+    select: { ownerId: true },
+  });
+  if (!ad || ad.ownerId !== session.user.id) {
+    return { ok: false, error: "Annonce introuvable" };
+  }
+
+  await prisma.ad.update({
+    where: { id: input.adId },
+    data: { autoRenew: input.enabled },
+  });
+
+  return { ok: true };
 }

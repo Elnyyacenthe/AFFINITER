@@ -499,6 +499,12 @@ model Payment {
   metadata      Json?
   paidAt        DateTime?
 
+  // v8 — Intent : action métier appliquée à la confirmation du paiement
+  // { type: "BUMP" | "STICKY" | "TIER_UPGRADE" | "SERVICE_PHOTO" | "VERIFICATION" | "CLIENT_PASS", payload: {...} }
+  intent          Json?
+  intentApplied   Boolean   @default(false)
+  intentAppliedAt DateTime?
+
   user User @relation(fields: [userId], references: [id])
   ad   Ad?  @relation(fields: [adId], references: [id], onDelete: SetNull)
 
@@ -507,6 +513,7 @@ model Payment {
 
   @@index([userId, status])
   @@index([adId])
+  @@index([status, intentApplied, createdAt])
 }
 
 model WalletTransaction {

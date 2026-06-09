@@ -36,3 +36,23 @@ export async function isFavoritedAction(adId: string): Promise<boolean> {
   });
   return Boolean(fav);
 }
+
+/** Supprime tous les favoris dont l'annonce n'est plus ACTIVE. */
+export async function clearInactiveFavoritesAction(): Promise<
+  { ok: true; removed: number } | { ok: false; error: string }
+> {
+  const session = await auth();
+  if (!session?.user) return { ok: false, error: "Non authentifié" };
+
+  const result = await prisma.favorite.deleteMany({
+    where: {
+      userId: session.user.id,
+      ad: { status: { not: "ACTIVE" } },
+    },
+  });
+
+  revalidatePath("/client/favoris");
+  revalidatePath("/escort/favoris");
+  revalidatePath("/favoris");
+  return { ok: true, removed: result.count };
+}

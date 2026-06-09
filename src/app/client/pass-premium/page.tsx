@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatXAF } from "@/lib/utils";
-import { getSettingNumber } from "@/lib/actions/wallet";
+import { getSettingNumber } from "@/lib/settings";
 import { SubscribeForm } from "./_form";
 
 export default async function ClientPassPage() {
@@ -18,7 +18,7 @@ export default async function ClientPassPage() {
   const [user, monthlyPrice, days, freeCap, premiumCap] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { walletBalance: true, clientPassUntil: true },
+      select: { phone: true, clientPassUntil: true },
     }),
     getSettingNumber("pricing.clientpass.amount", 1000),
     getSettingNumber("pricing.clientpass.days", 30),
@@ -133,13 +133,11 @@ export default async function ClientPassPage() {
             Sans engagement. Renouvelable à la demande.
           </p>
           <p className="text-xs text-muted-foreground">
-            Solde wallet : <strong className="text-primary">{formatXAF(user!.walletBalance)}</strong>
-            {" · "}
-            <Link href="/client/portefeuille" className="text-primary hover:underline">Recharger</Link>
+            Paiement Mobile Money direct — pas de portefeuille à recharger.
           </p>
           <SubscribeForm
             monthlyPrice={monthlyPrice}
-            walletBalance={user!.walletBalance}
+            defaultPhone={user?.phone ?? undefined}
             alreadyActive={!!isActive}
           />
         </CardContent>

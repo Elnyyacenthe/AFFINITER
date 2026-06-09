@@ -14,32 +14,27 @@ const IMG = (id: string) =>
 const CITIES = [
   {
     name: "Douala", slug: "douala", region: "Littoral", isPopular: true, order: 1, population: 3000000,
-    // Skyline / port moderne
-    imageUrl: IMG("1564507592333-c60657eea523"),
+    imageUrl: "/cities/douala.png",
     description: "Capitale économique du Cameroun, ville cosmopolite et port animé sur l'Atlantique.",
   },
   {
     name: "Yaoundé", slug: "yaounde", region: "Centre", isPopular: true, order: 2, population: 2800000,
-    // Ville sur les collines
-    imageUrl: IMG("1580060839134-75a5edca2e99"),
+    imageUrl: "/cities/yaounde.png",
     description: "La capitale politique, perchée sur sept collines verdoyantes.",
   },
   {
     name: "Bafoussam", slug: "bafoussam", region: "Ouest", isPopular: true, order: 3, population: 350000,
-    // Highlands / paysage vert
-    imageUrl: IMG("1551803091-e20673f15770"),
+    imageUrl: "/cities/bafoussam.jpg",
     description: "Cœur des Grassfields Bamileke, traditions et marchés vibrants.",
   },
   {
     name: "Bamenda", slug: "bamenda", region: "Nord-Ouest", isPopular: true, order: 4, population: 500000,
-    // Mountainous landscape
-    imageUrl: IMG("1486325212027-8081e485255e"),
+    imageUrl: "/cities/bamenda.jpg",
     description: "Métropole anglophone des hautes terres du Nord-Ouest.",
   },
   {
     name: "Garoua", slug: "garoua", region: "Nord", isPopular: true, order: 5, population: 600000,
-    // Sahel / river
-    imageUrl: IMG("1503614472-8c93d56e92ce"),
+    imageUrl: "/cities/garoua.jpg",
     description: "Carrefour culturel du Grand Nord, sur les rives de la Bénoué.",
   },
   {
@@ -66,14 +61,12 @@ const CITIES = [
   },
   {
     name: "Kribi", slug: "kribi", region: "Sud", isPopular: true, order: 10, population: 80000,
-    // Tropical beach
-    imageUrl: IMG("1507525428034-b723cf961d3e"),
+    imageUrl: "/cities/kribi.png",
     description: "Plages de sable fin et chutes de la Lobé — la perle balnéaire du Cameroun.",
   },
   {
     name: "Limbé", slug: "limbe", region: "Sud-Ouest", isPopular: true, order: 11, population: 120000,
-    // Beach + volcano
-    imageUrl: IMG("1519046904884-53103b34b206"),
+    imageUrl: "/cities/limbe.png",
     description: "Plages noires volcaniques au pied du Mont Cameroun.",
   },
   {

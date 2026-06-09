@@ -159,17 +159,6 @@ export function RegisterForm() {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="referralCode">Code parrainage (optionnel)</Label>
-            <Input
-              id="referralCode"
-              name="referralCode"
-              defaultValue={refParam}
-              placeholder="YAMO-XXXXXX"
-              className="uppercase"
-            />
-          </div>
-
           <div className="space-y-3 rounded-lg border border-border/60 bg-secondary/30 p-3">
             <div className="flex items-start gap-2">
               <Checkbox id="acceptAdult" name="acceptAdult" required />

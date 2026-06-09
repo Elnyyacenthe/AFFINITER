@@ -1,28 +1,29 @@
 -- Mise à jour des images & descriptions des villes
 -- À coller dans Supabase SQL Editor
+-- Les fichiers PNG/JPG sont servis depuis public/cities/ du repo yamo
 
 UPDATE "City" SET
-  "imageUrl"    = 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800&h=1000&fit=crop&auto=format&q=80',
+  "imageUrl"    = '/cities/douala.png',
   "description" = 'Capitale économique du Cameroun, ville cosmopolite et port animé sur l''Atlantique.'
 WHERE "slug" = 'douala';
 
 UPDATE "City" SET
-  "imageUrl"    = 'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=800&h=1000&fit=crop&auto=format&q=80',
+  "imageUrl"    = '/cities/yaounde.png',
   "description" = 'La capitale politique, perchée sur sept collines verdoyantes.'
 WHERE "slug" = 'yaounde';
 
 UPDATE "City" SET
-  "imageUrl"    = 'https://images.unsplash.com/photo-1551803091-e20673f15770?w=800&h=1000&fit=crop&auto=format&q=80',
+  "imageUrl"    = '/cities/bafoussam.jpg',
   "description" = 'Cœur des Grassfields Bamileke, traditions et marchés vibrants.'
 WHERE "slug" = 'bafoussam';
 
 UPDATE "City" SET
-  "imageUrl"    = 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=1000&fit=crop&auto=format&q=80',
+  "imageUrl"    = '/cities/bamenda.jpg',
   "description" = 'Métropole anglophone des hautes terres du Nord-Ouest.'
 WHERE "slug" = 'bamenda';
 
 UPDATE "City" SET
-  "imageUrl"    = 'https://images.unsplash.com/photo-1503614472-8c93d56e92ce?w=800&h=1000&fit=crop&auto=format&q=80',
+  "imageUrl"    = '/cities/garoua.jpg',
   "description" = 'Carrefour culturel du Grand Nord, sur les rives de la Bénoué.'
 WHERE "slug" = 'garoua';
 
@@ -47,12 +48,12 @@ UPDATE "City" SET
 WHERE "slug" = 'ebolowa';
 
 UPDATE "City" SET
-  "imageUrl"    = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=1000&fit=crop&auto=format&q=80',
+  "imageUrl"    = '/cities/kribi.png',
   "description" = 'Plages de sable fin et chutes de la Lobé — la perle balnéaire du Cameroun.'
 WHERE "slug" = 'kribi';
 
 UPDATE "City" SET
-  "imageUrl"    = 'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&h=1000&fit=crop&auto=format&q=80',
+  "imageUrl"    = '/cities/limbe.png',
   "description" = 'Plages noires volcaniques au pied du Mont Cameroun.'
 WHERE "slug" = 'limbe';
 
