@@ -171,6 +171,18 @@ export async function createAdAction(
     };
   }
 
+  // V10 — Anti-doublons photos : on calcule le pHash de chaque photo et on
+  //       refuse si une autre annonce a déjà la même photo.
+  const { checkPhotoDuplicate } = await import("@/lib/actions/photo-duplicate-check");
+  const photoHashes: (string | null)[] = [];
+  for (const url of photoUrls) {
+    const check = await checkPhotoDuplicate(url, session.user.id);
+    if (!check.ok) {
+      return { ok: false, error: check.reason };
+    }
+    photoHashes.push(check.imageHash || null);
+  }
+
   // On ordonne : photos d'abord (la 1ère sera isPrimary), vidéos ensuite
   const mediaCreates = [
     ...photoUrls.map((url, idx) => ({
@@ -178,6 +190,7 @@ export async function createAdAction(
       type: "PHOTO" as const,
       isPrimary: idx === 0,
       position: idx,
+      imageHash: photoHashes[idx],
     })),
     ...videoUrls.map((url, idx) => ({
       url,
