@@ -17,7 +17,7 @@ import type { Role } from "@prisma/client";
 export type AuthState =
   | {
       ok: true;
-      /** URL où le client doit naviguer après login (interne /admin OU externe dashboard.yamo.cm). */
+      /** URL où le client doit naviguer après login (interne /admin OU externe dashboard.affiniter.cm). */
       redirectTo?: string;
       nextStep?: { type: "PAYMENT"; tier: "PREMIUM" | "VIP"; amount: number };
     }
@@ -28,12 +28,12 @@ function destinationForRole(role: Role): string {
   return getDashboardNamespace(role);
 }
 
-/** Génère un code parrainage unique format YAMO-XXXX. */
+/** Génère un code parrainage unique format AFF-XXXX. */
 function generateReferralCode(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let code = "";
   for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
-  return `YAMO-${code}`;
+  return `AFF-${code}`;
 }
 
 /** Connexion par email/téléphone + mot de passe. */
@@ -177,7 +177,7 @@ export async function registerAction(_prev: AuthState | null, formData: FormData
     const priceKey = tier === "VIP" ? "pricing.vip.amount" : "pricing.premium.amount";
     const amount = await getSettingNumber(priceKey, tier === "VIP" ? 15000 : 5000);
     const dashboardBase =
-      process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://dashboard.yamo.cm";
+      process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://dashboard.affiniter.cm";
     return {
       ok: true,
       redirectTo: `${dashboardBase}/escort/portefeuille/payer?tier=${tier}&amount=${amount}`,

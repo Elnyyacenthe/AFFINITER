@@ -21,11 +21,11 @@ export default async function BecomeEscortPage() {
 
   // Si déjà escort, on l'envoie sur son dashboard
   if (session.user.role === "ESCORT") redirect("/escort/dashboard");
-  // ADMIN/MODERATOR : renvoyés vers l'interface admin externe (yamo.cm/admin)
+  // ADMIN/MODERATOR : renvoyés vers l'interface admin externe (affiniter.cm/admin)
   if (session.user.role === "ADMIN" || session.user.role === "MODERATOR") {
     const url =
       process.env.NEXT_PUBLIC_YAMO_ADMIN_URL ??
-      `${process.env.NEXT_PUBLIC_YAMO_URL ?? "https://yamo.cm"}/admin`;
+      `${process.env.NEXT_PUBLIC_YAMO_URL ?? "https://affiniter.cm"}/admin`;
     redirect(url);
   }
 
@@ -37,7 +37,7 @@ export default async function BecomeEscortPage() {
           Passez côté Escort
         </div>
         <h1 className="font-display text-4xl font-bold leading-tight md:text-5xl">
-          Devenez <span className="gradient-text">Escort</span> sur Yamo
+          Devenez <span className="gradient-text">Escort</span> sur Affiniter
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
           Votre compte client va être converti en compte escort. Vous gardez vos données, votre solde

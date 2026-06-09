@@ -54,7 +54,7 @@ export default async function TicketPage({
               <CardContent className="space-y-2 p-4">
                 <div className="flex items-center justify-between text-xs text-muted-foreground">
                   <strong className={m.isAdmin ? "text-primary" : ""}>
-                    {m.isAdmin ? "🛡️ Équipe Yamo" : m.author.name ?? "Vous"}
+                    {m.isAdmin ? "🛡️ Équipe Affiniter" : m.author.name ?? "Vous"}
                   </strong>
                   <span>{timeAgo(m.createdAt)}</span>
                 </div>

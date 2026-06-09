@@ -113,7 +113,7 @@ async function main() {
   console.log(`✓ ${CITIES.length} villes insérées`);
 
   // --------- Admin ----------
-  const adminEmail = process.env.ADMIN_EMAIL ?? "admin@yamo.cm";
+  const adminEmail = process.env.ADMIN_EMAIL ?? "admin@affiniter.cm";
   const adminPassword = process.env.ADMIN_PASSWORD ?? "ChangeMe123!";
   const hashed = await bcrypt.hash(adminPassword, 10);
 
@@ -131,7 +131,7 @@ async function main() {
   console.log(`✓ Admin: ${adminEmail} / ${adminPassword}`);
 
   // --------- Escort de démo ----------
-  const escortEmail = "escort@yamo.cm";
+  const escortEmail = "escort@affiniter.cm";
   const escortPwd = await bcrypt.hash("Demo1234!", 10);
 
   const escortUser = await prisma.user.upsert({

@@ -21,7 +21,7 @@ export const authConfig = {
       //   - /admin/* (interne, ADMIN/MODERATOR uniquement)
       //   - /(auth)/* (connexion, inscription)
       //   - /poster-une-annonce (réservé ESCORT)
-      // Les dashboards CLIENT et ESCORT sont externes (dashboard.yamo.cm).
+      // Les dashboards CLIENT et ESCORT sont externes (dashboard.affiniter.cm).
       const isOnAdmin = nextUrl.pathname.startsWith("/admin");
       const isOnPost = nextUrl.pathname.startsWith("/poster-une-annonce");
       const isOnAuth =
@@ -34,7 +34,7 @@ export const authConfig = {
         return isLoggedIn;
       }
       if (isOnAuth && isLoggedIn) {
-        // ADMIN reste sur yamo.cm/admin ; les autres rôles vont sur le dashboard externe.
+        // ADMIN reste sur affiniter.cm/admin ; les autres rôles vont sur le dashboard externe.
         // Tous les redirects externes se font côté client après login (cf. login-form.tsx).
         // Ici on ne redirige que les ADMIN car ils sont internes.
         if (role === "ADMIN" || role === "MODERATOR") {

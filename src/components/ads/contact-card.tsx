@@ -64,7 +64,7 @@ export function ContactCard({
   function openWhatsApp(p: string) {
     const cleanWa = p.replace(/\s/g, "").replace(/^\+/, "");
     const waUrl = `https://wa.me/${cleanWa}?text=${encodeURIComponent(
-      `Bonjour, je vous écris au sujet de votre annonce "${adTitle}" sur Yamo.`,
+      `Bonjour, je vous écris au sujet de votre annonce "${adTitle}" sur Affiniter.`,
     )}`;
     window.open(waUrl, "_blank", "noopener,noreferrer");
   }

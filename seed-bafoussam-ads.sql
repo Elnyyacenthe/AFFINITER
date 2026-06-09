@@ -3,7 +3,7 @@
 --
 -- À lancer dans Supabase SQL Editor.
 -- Identifiants démo (à utiliser pour se connecter) :
---   Email     : bafoussam@yamo.cm
+--   Email     : bafoussam@affiniter.cm
 --   Téléphone : 237677888999
 --   Mot de passe : Bafoussam@2026
 --
@@ -19,7 +19,7 @@ INSERT INTO "User" (
 VALUES (
   'usr_bafoussam_demo',
   'Bafoussam',
-  'bafoussam@yamo.cm',
+  'bafoussam@affiniter.cm',
   '237677888999',
   '$2a$10$TCAuwgdIBHwLGspxz24dEuG0ebFXo9TmVjgNGSApacSx.eW4n4KCW',
   'ESCORT',

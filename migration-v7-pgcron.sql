@@ -2,7 +2,7 @@
 -- Migration v7 : pg_cron de réconciliation paiements (toutes les 5 min)
 --
 -- ⚠️  AVANT EXÉCUTION, remplacez DEUX VALEURS dans la fonction ci-dessous :
---     - YOUR_DOMAIN     → ex : https://yamo.cm  (ou votre URL Vercel)
+--     - YOUR_DOMAIN     → ex : https://affiniter.cm  (ou votre URL Vercel)
 --     - YOUR_CRON_SECRET → la valeur de votre env var CRON_SECRET
 --
 -- Pourquoi pg_cron côté Supabase :
@@ -74,7 +74,7 @@ SELECT cron.schedule(
 --   WHERE jobid = (SELECT jobid FROM cron.job WHERE jobname = 'yamo-reconcile-5min')
 --   ORDER BY start_time DESC LIMIT 10;
 
--- Voir les réponses HTTP reçues de l'API Yamo :
+-- Voir les réponses HTTP reçues de l'API Affiniter :
 --   SELECT id, status_code, content::text, created
 --   FROM net._http_response
 --   ORDER BY created DESC LIMIT 10;
