@@ -41,6 +41,9 @@ export async function Header() {
           <Link href="/villes" className="text-muted-foreground transition-colors hover:text-foreground">
             Toutes les villes
           </Link>
+          <Link href="/blog" className="text-muted-foreground transition-colors hover:text-foreground">
+            Blog
+          </Link>
         </nav>
 
         <div className="flex items-center gap-2">

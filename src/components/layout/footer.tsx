@@ -39,6 +39,7 @@ export function Footer() {
               <li><Link href="/inscription">Devenir escort</Link></li>
               <li><Link href="/recherche">Recherche avancée</Link></li>
               <li><Link href="/tarifs">Tarifs Premium</Link></li>
+              <li><Link href="/blog">Blog & guides</Link></li>
             </ul>
           </div>
 
