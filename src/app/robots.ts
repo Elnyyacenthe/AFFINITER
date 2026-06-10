@@ -6,10 +6,36 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
-        disallow: ["/admin", "/escort", "/api"],
+        allow: [
+          "/",
+          "/ville/",
+          "/annonce/",
+          "/recherche",
+          "/villes",
+          "/poster-une-annonce",
+          "/tarifs",
+          "/blog",
+          "/cgu",
+          "/mentions-legales",
+          "/confidentialite",
+        ],
+        disallow: [
+          "/admin",
+          "/escort",
+          "/client",
+          "/api",
+          "/connexion",
+          "/inscription",
+          "/compte",
+          "/portefeuille",
+          "/parrainage",
+          "/support",
+          "/*?ref=",
+          "/*?utm_",
+        ],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }

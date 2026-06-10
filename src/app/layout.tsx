@@ -1,25 +1,45 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 
 import { SITE_NAME, SITE_URL } from "@/lib/utils";
 import { AgeGate } from "@/components/layout/age-gate";
 import { Providers } from "@/components/providers";
+import { OrganizationJsonLd } from "@/components/seo/organization-jsonld";
 
 import "./globals.css";
 
-const sans = Inter({ subsets: ["latin"], variable: "--font-sans" });
-const display = Playfair_Display({ subsets: ["latin"], variable: "--font-display" });
+const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const display = Playfair_Display({ subsets: ["latin"], variable: "--font-display", display: "swap" });
+
+export const viewport: Viewport = {
+  themeColor: "#ff3d8b",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — Annonces escorts au Cameroun`,
+    default: `${SITE_NAME} — Annonces escorts vérifiées au Cameroun`,
     template: `%s · ${SITE_NAME}`,
   },
   description:
-    "Plateforme N°1 d'annonces d'escorts et ndolo au Cameroun. Douala, Yaoundé, Bafoussam, Kribi… Rencontres adultes 18+ vérifiées.",
-  keywords: ["escort cameroun", "ndolo", "annonce douala", "annonce yaoundé", "rencontre adulte"],
-  robots: { index: true, follow: true },
+    "Plateforme N°1 d'annonces d'escorts et ndolo au Cameroun. Douala, Yaoundé, Bafoussam, Kribi… Profils vérifiés 18+, contact WhatsApp instantané, paiement Mobile Money.",
+  keywords: [
+    "escort cameroun",
+    "ndolo",
+    "annonce douala",
+    "annonce yaoundé",
+    "rencontre adulte cameroun",
+    "escort bafoussam",
+    "escort bamenda",
+    "escort kribi",
+    "escort limbé",
+    "escort vérifiée",
+  ],
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
+  alternates: { canonical: SITE_URL },
   icons: {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml" },
@@ -27,12 +47,21 @@ export const metadata: Metadata = {
     apple: "/icon.svg",
   },
   openGraph: {
-    title: `${SITE_NAME} — Annonces escorts au Cameroun`,
-    description: "Plateforme d'annonces escorts au Cameroun (18+).",
+    title: `${SITE_NAME} — Annonces escorts vérifiées au Cameroun`,
+    description: "Plateforme N°1 d'annonces d'escorts au Cameroun (18+). Profils vérifiés, contact WhatsApp.",
     type: "website",
     locale: "fr_FR",
     url: SITE_URL,
-    images: ["/logo.svg"],
+    siteName: SITE_NAME,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — Annonces escorts au Cameroun`,
+    description: "Plateforme N°1 d'annonces d'escorts au Cameroun (18+).",
+  },
+  other: {
+    "rating": "adult",
+    "RATING": "RTA-5042-1996-1400-1577-RTA",
   },
 };
 
@@ -40,6 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr" suppressHydrationWarning className={`${sans.variable} ${display.variable}`}>
       <body>
+        <OrganizationJsonLd />
         <Providers>
           <AgeGate />
           {children}

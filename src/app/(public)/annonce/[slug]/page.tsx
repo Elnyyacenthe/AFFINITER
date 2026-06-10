@@ -13,7 +13,15 @@ import { ReportButton } from "@/components/ads/report-button";
 import { FavoriteButton } from "@/components/ads/favorite-button";
 import { trackAdView } from "@/lib/actions/ads";
 import { isFavoritedAction } from "@/lib/actions/favorites";
-import { formatXAF, timeAgo, maskPhone, SITE_NAME } from "@/lib/utils";
+import { formatXAF, timeAgo, maskPhone, SITE_NAME, SITE_URL } from "@/lib/utils";
+
+function trimToSentence(text: string, max: number): string {
+  if (text.length <= max) return text;
+  const truncated = text.slice(0, max);
+  const lastPunct = Math.max(truncated.lastIndexOf("."), truncated.lastIndexOf("!"), truncated.lastIndexOf("?"));
+  if (lastPunct > max * 0.6) return truncated.slice(0, lastPunct + 1);
+  return truncated.replace(/\s+\S*$/, "") + "…";
+}
 
 export async function generateMetadata({
   params,
@@ -25,14 +33,34 @@ export async function generateMetadata({
     where: { slug },
     include: { city: true, media: { take: 1 } },
   });
-  if (!ad || ad.status !== "ACTIVE") return { title: "Annonce introuvable" };
+  if (!ad || ad.status !== "ACTIVE") return { title: "Annonce introuvable", robots: { index: false } };
+  const desc = trimToSentence(ad.description.replace(/\s+/g, " "), 155);
+  const enrichedDesc = `${desc} · ${ad.city.name}, ${formatXAF(ad.price)}/h. Profil vérifié sur ${SITE_NAME}.`;
   return {
     title: ad.title,
-    description: ad.description.slice(0, 160),
+    description: enrichedDesc.slice(0, 200),
+    keywords: [
+      `escort ${ad.city.name.toLowerCase()}`,
+      ad.neighborhood ? `escort ${ad.neighborhood.toLowerCase()}` : "",
+      `annonce ${ad.city.name.toLowerCase()}`,
+      "escort cameroun",
+      "ndolo",
+    ].filter(Boolean),
+    alternates: { canonical: `/annonce/${ad.slug}` },
     openGraph: {
       title: `${ad.title} · ${SITE_NAME}`,
-      description: ad.description.slice(0, 160),
-      images: ad.media[0] ? [{ url: ad.media[0].url }] : [],
+      description: enrichedDesc.slice(0, 200),
+      images: ad.media[0]
+        ? [{ url: ad.media[0].url, width: 800, height: 1000, alt: ad.title }]
+        : [],
+      type: "article",
+      url: `${SITE_URL}/annonce/${ad.slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ad.title,
+      description: enrichedDesc.slice(0, 200),
+      images: ad.media[0] ? [ad.media[0].url] : [],
     },
   };
 }
@@ -55,9 +83,60 @@ export default async function AdPage({ params }: { params: Promise<{ slug: strin
 
   const isFav = await isFavoritedAction(ad.id);
 
+  // JSON-LD Schema.org : Service + BreadcrumbList
+  const serviceLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: ad.title,
+    description: ad.description.slice(0, 500),
+    image: ad.media.slice(0, 5).map((m) => m.url),
+    serviceType: ad.services.join(", ") || "Escort",
+    provider: {
+      "@type": "Person",
+      name: ad.profile?.displayName ?? "Escort indépendante",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: ad.city.name,
+        addressRegion: ad.city.region ?? "Cameroun",
+        addressCountry: "CM",
+      },
+    },
+    areaServed: {
+      "@type": "City",
+      name: ad.city.name,
+    },
+    offers: {
+      "@type": "Offer",
+      price: ad.price,
+      priceCurrency: "XAF",
+      availability: "https://schema.org/InStock",
+      url: `${SITE_URL}/annonce/${ad.slug}`,
+    },
+    ...(ad.profile?.isVerified && {
+      additionalProperty: {
+        "@type": "PropertyValue",
+        name: "Profil vérifié",
+        value: "Oui",
+      },
+    }),
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: ad.city.name, item: `${SITE_URL}/ville/${ad.city.slug}` },
+      { "@type": "ListItem", position: 3, name: ad.title, item: `${SITE_URL}/annonce/${ad.slug}` },
+    ],
+  };
+
   return (
     <div className="container py-8">
-      <nav className="mb-4 text-sm text-muted-foreground">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+
+      <nav className="mb-4 text-sm text-muted-foreground" aria-label="Fil d'Ariane">
         <Link href="/" className="hover:text-foreground">Accueil</Link>
         {" / "}
         <Link href={`/ville/${ad.city.slug}`} className="hover:text-foreground">
