@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Flame, ShieldAlert } from "lucide-react";
+import Image from "next/image";
+import { ShieldAlert } from "lucide-react";
 import { SITE_NAME } from "@/lib/utils";
 
 export function Footer() {
@@ -9,7 +10,7 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-4">
           <div>
             <Link href="/" className="flex items-center gap-2">
-              <Flame className="h-6 w-6 text-primary" />
+              <Image src="/icon.svg" alt={SITE_NAME} width={28} height={28} />
               <span className="font-display text-xl font-bold gradient-text">{SITE_NAME}</span>
             </Link>
             <p className="mt-3 text-sm text-muted-foreground">

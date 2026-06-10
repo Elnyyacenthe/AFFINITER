@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Flame } from "lucide-react";
+import Image from "next/image";
 import { SITE_NAME } from "@/lib/utils";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -8,7 +8,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
       <div className="w-full max-w-md">
         <Link href="/" className="mb-8 flex items-center justify-center gap-2">
-          <Flame className="h-8 w-8 text-primary" />
+          <Image src="/icon.svg" alt={SITE_NAME} width={40} height={40} priority />
           <span className="font-display text-3xl font-bold gradient-text">{SITE_NAME}</span>
         </Link>
         {children}

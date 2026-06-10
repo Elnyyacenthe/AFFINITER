@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Flame, LayoutDashboard, ListChecks, User, BarChart3, CreditCard, BadgeCheck, MessageSquare } from "lucide-react";
+import Image from "next/image";
+import { LayoutDashboard, ListChecks, User, BarChart3, CreditCard, BadgeCheck, MessageSquare } from "lucide-react";
 
 import { auth } from "@/auth";
 import { LogoutButton } from "@/components/auth/logout-button";
@@ -20,7 +21,7 @@ export default async function EscortLayout({ children }: { children: React.React
       <aside className="border-b border-border/60 bg-card/40 backdrop-blur md:border-b-0 md:border-r">
         <div className="flex h-16 items-center px-6">
           <Link href="/" className="flex items-center gap-2">
-            <Flame className="h-6 w-6 text-primary" />
+            <Image src="/icon.svg" alt={SITE_NAME} width={28} height={28} />
             <span className="font-display text-xl font-bold gradient-text">{SITE_NAME}</span>
           </Link>
         </div>

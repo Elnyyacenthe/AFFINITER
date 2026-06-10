@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Flame, Plus, Search, User, LayoutDashboard, Shield, Heart } from "lucide-react";
+import Image from "next/image";
+import { Plus, Search, User, LayoutDashboard, Shield, Heart } from "lucide-react";
 
 import { auth } from "@/auth";
 import { LogoutButton } from "@/components/auth/logout-button";
@@ -23,7 +24,7 @@ export async function Header() {
     <header className="sticky top-0 z-40 border-b border-border/50 bg-background/80 backdrop-blur-lg">
       <div className="container flex h-16 items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2">
-          <Flame className="h-7 w-7 text-primary" />
+          <Image src="/icon.svg" alt={SITE_NAME} width={32} height={32} priority />
           <span className="font-display text-2xl font-bold gradient-text">{SITE_NAME}</span>
         </Link>
 
