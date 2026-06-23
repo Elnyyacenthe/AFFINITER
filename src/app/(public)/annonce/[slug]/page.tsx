@@ -13,7 +13,7 @@ import { ReportButton } from "@/components/ads/report-button";
 import { FavoriteButton } from "@/components/ads/favorite-button";
 import { trackAdView } from "@/lib/actions/ads";
 import { isFavoritedAction } from "@/lib/actions/favorites";
-import { formatXAF, timeAgo, maskPhone, SITE_NAME, SITE_URL } from "@/lib/utils";
+import { formatXAF, timeAgo, SITE_NAME, SITE_URL } from "@/lib/utils";
 
 function trimToSentence(text: string, max: number): string {
   if (text.length <= max) return text;
@@ -247,8 +247,8 @@ export default async function AdPage({ params }: { params: Promise<{ slug: strin
         <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
           <ContactCard
             adId={ad.id}
-            whatsappPhoneMasked={maskPhone(ad.whatsappPhone)}
-            callPhoneMasked={ad.callPhone ? maskPhone(ad.callPhone) : null}
+            whatsappPhone={ad.whatsappPhone}
+            callPhone={ad.callPhone}
             adTitle={ad.title}
           />
         </aside>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Heart, ListChecks, Search, Sparkles, Crown } from "lucide-react";
+import { Heart, Search, Sparkles, MapPin } from "lucide-react";
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -18,7 +18,6 @@ export default async function ClientDashboardPage() {
       where: { id: userId },
       select: {
         name: true,
-        clientPassUntil: true,
         _count: { select: { favorites: true } },
       },
     }),
@@ -60,20 +59,9 @@ export default async function ClientDashboardPage() {
         <p className="text-muted-foreground">Votre espace personnel</p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2">
         <StatCard label="Favoris" value={user?._count.favorites ?? 0} icon={Heart} />
-        <StatCard
-          label="Pass Premium"
-          value={user?.clientPassUntil && user.clientPassUntil > new Date()
-            ? `Jusqu'au ${user.clientPassUntil.toLocaleDateString("fr-FR")}`
-            : "Inactif"}
-          icon={Crown}
-        />
-        <StatCard
-          label="Recherches"
-          value="Explorer"
-          icon={Search}
-        />
+        <StatCard label="Explorer" value="Recherche" icon={MapPin} />
       </div>
 
       {/* Upgrade Escort — appel à l'action principal pour un CLIENT */}
