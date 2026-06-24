@@ -1,7 +1,7 @@
 import type { Role } from "@prisma/client";
 
 /**
- * URL externe vers le dashboard utilisateur (hébergé dans le projet yamo-dashboard).
+ * URL externe vers le back-office admin (yamo-dashboard).
  * Configurable via NEXT_PUBLIC_DASHBOARD_URL ; à défaut, https://dashboard.affiniter.cm.
  */
 function getDashboardExternalUrl(): string {
@@ -9,19 +9,21 @@ function getDashboardExternalUrl(): string {
 }
 
 /**
- * Retourne l'URL ou le namespace de destination selon le rôle :
- *   - ADMIN / MODERATOR → "/admin" (interne, hébergé dans ce projet)
- *   - ESCORT            → URL externe `dashboard.affiniter.cm/escort/dashboard`
- *   - CLIENT            → URL externe `dashboard.affiniter.cm/client`
+ * Retourne la destination après login selon le rôle.
  *
- * Les sessions Auth.js sont partagées entre affiniter.cm et dashboard.affiniter.cm
- * via le même `AUTH_SECRET` et un cookie sur le domaine racine `.affiniter.cm`.
+ * Architecture v2 (depuis 2026) : escort/client sont intégrés à yamo (interne).
+ * Seul l'admin est externe (yamo-dashboard / dashboard.affiniter.cm).
+ *
+ *   - ADMIN / MODERATOR → URL externe back-office
+ *   - ESCORT            → /escort/dashboard (interne yamo)
+ *   - CLIENT            → /client (interne yamo)
  */
 export function getDashboardNamespace(role: Role): string {
-  if (role === "ADMIN" || role === "MODERATOR") return "/admin";
-  const base = getDashboardExternalUrl();
-  if (role === "ESCORT") return `${base}/escort/dashboard`;
-  return `${base}/client`;
+  if (role === "ADMIN" || role === "MODERATOR") {
+    return `${getDashboardExternalUrl()}/admin`;
+  }
+  if (role === "ESCORT") return "/escort/dashboard";
+  return "/client";
 }
 
 /** Indique si une chaîne est une URL absolue (http[s]://…). */
