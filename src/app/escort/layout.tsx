@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { LayoutDashboard, ListChecks, User, BarChart3, CreditCard, BadgeCheck, MessageSquare, Sparkles } from "lucide-react";
+import { User, BadgeCheck, MessageSquare, Sparkles } from "lucide-react";
 
 import { auth } from "@/auth";
 import { LogoutButton } from "@/components/auth/logout-button";
@@ -61,13 +61,9 @@ export default async function EscortLayout({ children }: { children: React.React
           </p>
           <SidebarNav
             items={[
-              { href: "/escort/dashboard", label: "Vue d'ensemble", icon: <LayoutDashboard className="h-4 w-4" /> },
-              { href: "/escort/annonces", label: "Mes annonces", icon: <ListChecks className="h-4 w-4" /> },
-              { href: "/escort/profil", label: "Mon profil", icon: <User className="h-4 w-4" /> },
+              { href: "/escort/dashboard", label: "Mon profil", icon: <User className="h-4 w-4" /> },
               { href: "/escort/abonnement", label: "Mon abonnement", icon: <Sparkles className="h-4 w-4" /> },
               { href: "/escort/verification", label: "Vérification ID", icon: <BadgeCheck className="h-4 w-4" /> },
-              { href: "/escort/statistiques", label: "Statistiques", icon: <BarChart3 className="h-4 w-4" /> },
-              { href: "/escort/premium", label: "Boost & Diamond", icon: <CreditCard className="h-4 w-4" /> },
               { href: "/support", label: "Service client", icon: <MessageSquare className="h-4 w-4" /> },
             ]}
           />
