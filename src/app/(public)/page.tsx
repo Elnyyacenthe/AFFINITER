@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Search, Sparkles, ShieldCheck, Crown, MapPin } from "lucide-react";
+import Image from "next/image";
+import { ShieldCheck, Crown, MapPin, Flame } from "lucide-react";
 
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,7 @@ import { CityCard } from "@/components/ads/city-card";
 export const revalidate = 300; // 5 min ISR
 
 export default async function HomePage() {
-  const [vipAds, recentAds, cities] = await Promise.all([
+  const [vipAds, recentAds, cities, totalAds, totalVerified] = await Promise.all([
     prisma.ad.findMany({
       where: { status: "ACTIVE", tier: "VIP" },
       include: {
@@ -47,44 +48,93 @@ export default async function HomePage() {
         _count: { select: { ads: { where: { status: "ACTIVE" } } } },
       },
     }),
+    prisma.ad.count({ where: { status: "ACTIVE" } }),
+    prisma.escortProfile.count({ where: { isVerified: true } }),
   ]);
+
+  // 8 photos pour la mosaïque background du hero
+  const heroPhotos = [...vipAds, ...recentAds]
+    .map((ad) => ad.media.find((m) => m.type === "PHOTO")?.url)
+    .filter((u): u is string => !!u)
+    .slice(0, 8);
 
   return (
     <>
       {/* ======================= HERO ======================= */}
       <section className="relative overflow-hidden border-b border-border/30">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-accent/10" />
-        <div className="container relative py-10 md:py-20">
+        {/* Mosaïque de photos en background (floutée + sombre) */}
+        {heroPhotos.length > 0 && (
+          <div className="absolute inset-0 grid grid-cols-4 opacity-50 md:grid-cols-8">
+            {heroPhotos.map((url, i) => (
+              <div key={i} className="relative aspect-[3/4] overflow-hidden">
+                <Image
+                  src={url}
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 25vw, 12.5vw"
+                  className="object-cover scale-110 blur-sm"
+                  priority={i < 4}
+                  aria-hidden
+                />
+              </div>
+            ))}
+          </div>
+        )}
+        {/* Voile sombre + gradient rose/ambre par-dessus */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-accent/20" />
+
+        <div className="container relative py-12 md:py-24">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary md:px-4 md:py-1.5 md:text-xs">
-              <Sparkles className="h-3 w-3 md:h-3.5 md:w-3.5" />
-              La référence escort au Cameroun
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary backdrop-blur md:px-4 md:py-1.5 md:text-xs">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+              </span>
+              {totalAds}+ annonces en ligne maintenant
             </div>
-            <h1 className="font-display text-3xl font-bold leading-tight sm:text-4xl md:text-6xl lg:text-7xl">
-              Rencontres <span className="gradient-text">sexy</span> à<br />
-              Douala, Yaoundé & partout au Cameroun
+            <h1 className="font-display text-3xl font-bold leading-tight drop-shadow-2xl sm:text-4xl md:text-6xl lg:text-7xl">
+              Rencontres <span className="gradient-text">sexy</span>
+              <br className="hidden sm:inline" /> à Douala, Yaoundé & + au Cameroun
             </h1>
-            <p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground md:mt-6 md:text-lg">
-              Des milliers d'annonces vérifiées, des escorts authentiques, contact direct WhatsApp.
-              Discrétion garantie 24h/24.
+            <p className="mx-auto mt-4 max-w-xl text-sm text-foreground/90 drop-shadow md:mt-6 md:text-lg">
+              Annonces 100% vérifiées · Contact WhatsApp direct · Discrétion garantie 24/7
             </p>
             <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row md:mt-8">
-              <Button asChild size="xl" className="w-full sm:w-auto">
+              <Button asChild size="xl" className="w-full shadow-xl shadow-primary/40 sm:w-auto">
                 <Link href="/recherche">
-                  <Search /> Explorer les annonces
+                  <Flame /> Explorer les annonces
+                </Link>
+              </Button>
+              <Button asChild size="xl" variant="outline" className="w-full backdrop-blur sm:w-auto">
+                <Link href="/villes">
+                  <MapPin /> Choisir ma ville
                 </Link>
               </Button>
             </div>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground md:mt-10 md:gap-6 md:text-sm">
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="h-4 w-4 text-emerald-400" /> Profils vérifiés
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Crown className="h-4 w-4 text-amber-400" /> Annonces VIP
-              </span>
-              <span className="flex items-center gap-1.5">
-                <MapPin className="h-4 w-4 text-pink-400" /> 15+ villes
-              </span>
+          </div>
+        </div>
+
+        {/* Bandeau stats live */}
+        <div className="relative border-t border-border/40 bg-background/60 backdrop-blur">
+          <div className="container grid grid-cols-3 divide-x divide-border/40 py-4">
+            <div className="px-2 text-center">
+              <div className="text-xl font-bold text-primary md:text-3xl">{totalAds}</div>
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground md:text-xs">
+                Annonces actives
+              </div>
+            </div>
+            <div className="px-2 text-center">
+              <div className="text-xl font-bold text-emerald-400 md:text-3xl">{totalVerified}</div>
+              <div className="flex items-center justify-center gap-1 text-[10px] uppercase tracking-wider text-muted-foreground md:text-xs">
+                <ShieldCheck className="h-3 w-3" /> Vérifiées
+              </div>
+            </div>
+            <div className="px-2 text-center">
+              <div className="text-xl font-bold text-amber-400 md:text-3xl">{cities.length}+</div>
+              <div className="flex items-center justify-center gap-1 text-[10px] uppercase tracking-wider text-muted-foreground md:text-xs">
+                <MapPin className="h-3 w-3" /> Villes
+              </div>
             </div>
           </div>
         </div>
