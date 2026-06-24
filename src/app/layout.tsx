@@ -1,15 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
 
 import { SITE_NAME, SITE_URL } from "@/lib/utils";
 import { AgeGate } from "@/components/layout/age-gate";
 import { Providers } from "@/components/providers";
 import { OrganizationJsonLd } from "@/components/seo/organization-jsonld";
 
-import "./globals.css";
+// Fonts servies en local depuis @fontsource-variable (plus de fetch Google Fonts au build/dev)
+import "@fontsource-variable/inter";
+import "@fontsource-variable/playfair-display";
 
-const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
-const display = Playfair_Display({ subsets: ["latin"], variable: "--font-display", display: "swap" });
+import "./globals.css";
 
 export const viewport: Viewport = {
   themeColor: "#ff3d8b",
@@ -41,9 +41,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
   alternates: { canonical: SITE_URL },
   icons: {
-    icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-    ],
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     apple: "/icon.svg",
   },
   openGraph: {
@@ -67,7 +65,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" suppressHydrationWarning className={`${sans.variable} ${display.variable}`}>
+    <html lang="fr" suppressHydrationWarning>
       <body>
         <OrganizationJsonLd />
         <Providers>
