@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Plus, Search, User, LayoutDashboard, Shield, Heart } from "lucide-react";
+import { Plus, Search, User, LayoutDashboard, Shield, Heart, MapPin, Flame } from "lucide-react";
 
 import { auth } from "@/auth";
 import { LogoutButton } from "@/components/auth/logout-button";
@@ -46,36 +46,30 @@ export async function Header() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
+          {/* Mobile : icônes raccourcis vers les annonces (CIBLE PRINCIPALE = clients) */}
           <Button asChild variant="ghost" size="icon" className="md:hidden">
-            <Link href="/recherche">
+            <Link href="/recherche" aria-label="Rechercher des annonces">
               <Search />
             </Link>
           </Button>
+          <Button asChild variant="ghost" size="icon" className="md:hidden">
+            <Link href="/villes" aria-label="Toutes les villes">
+              <MapPin />
+            </Link>
+          </Button>
 
-          {/* CTA adapté au rôle :
-              - Visiteur          → "Devenir escort" (inscription role=ESCORT)
-              - CLIENT connecté   → "Devenir escort" (upgrade compte → /client/devenir-escort)
+          {/* CTA principal adapté au rôle :
+              - Visiteur          → "Voir les annonces" (cible client, c'est 95% du trafic)
+              - CLIENT connecté   → "Voir les annonces" (même cible)
               - ESCORT            → "Poster une annonce"
               - ADMIN / MODERATOR → rien */}
-          {!user && (
+          {(!user || user.role === "CLIENT") && (
             <Button asChild variant="accent" size="sm" className="hidden sm:inline-flex">
-              <Link href="/inscription?role=ESCORT">
-                <Plus className="mr-1" />
-                Devenir escort
+              <Link href="/recherche">
+                <Flame className="mr-1" />
+                Voir les annonces
               </Link>
-            </Button>
-          )}
-          {user?.role === "CLIENT" && (
-            <Button asChild variant="accent" size="sm" className="hidden sm:inline-flex">
-              <a
-                href={`${process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://dashboard.affinité.com"}/client/devenir-escort`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Plus className="mr-1" />
-                Devenir escort ↗
-              </a>
             </Button>
           )}
           {user?.role === "ESCORT" && (
@@ -160,8 +154,9 @@ export async function Header() {
             </DropdownMenu>
           ) : (
             <div className="flex items-center gap-2">
-              <Button asChild variant="ghost" size="sm">
-                <Link href="/connexion">Connexion escort</Link>
+              {/* Espace escort discret — clients n'ont pas besoin de compte */}
+              <Button asChild variant="ghost" size="sm" className="text-xs text-muted-foreground">
+                <Link href="/connexion">Espace escort</Link>
               </Button>
             </div>
           )}

@@ -54,31 +54,28 @@ export default async function HomePage() {
       {/* ======================= HERO ======================= */}
       <section className="relative overflow-hidden border-b border-border/30">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-accent/10" />
-        <div className="container relative py-20 md:py-28">
+        <div className="container relative py-10 md:py-20">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
-              <Sparkles className="h-3.5 w-3.5" />
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary md:px-4 md:py-1.5 md:text-xs">
+              <Sparkles className="h-3 w-3 md:h-3.5 md:w-3.5" />
               La référence escort au Cameroun
             </div>
-            <h1 className="font-display text-5xl font-bold leading-tight md:text-7xl">
+            <h1 className="font-display text-3xl font-bold leading-tight sm:text-4xl md:text-6xl lg:text-7xl">
               Rencontres <span className="gradient-text">sexy</span> à<br />
               Douala, Yaoundé & partout au Cameroun
             </h1>
-            <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
+            <p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground md:mt-6 md:text-lg">
               Des milliers d'annonces vérifiées, des escorts authentiques, contact direct WhatsApp.
               Discrétion garantie 24h/24.
             </p>
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Button asChild size="xl">
+            <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row md:mt-8">
+              <Button asChild size="xl" className="w-full sm:w-auto">
                 <Link href="/recherche">
                   <Search /> Explorer les annonces
                 </Link>
               </Button>
-              <Button asChild size="xl" variant="outline">
-                <Link href="/poster-une-annonce">Poster mon annonce</Link>
-              </Button>
             </div>
-            <div className="mt-10 flex items-center justify-center gap-6 text-sm text-muted-foreground">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground md:mt-10 md:gap-6 md:text-sm">
               <span className="flex items-center gap-1.5">
                 <ShieldCheck className="h-4 w-4 text-emerald-400" /> Profils vérifiés
               </span>
