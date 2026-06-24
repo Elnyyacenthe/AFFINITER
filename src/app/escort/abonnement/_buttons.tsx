@@ -7,7 +7,7 @@ import { KpayPayModal } from "@/components/kpay/kpay-pay-modal";
 import { initiateEscortSubscriptionAction } from "@/lib/actions/payments";
 
 const DURATIONS = [
-  { months: 1 as const, label: "1 mois" },
+  { months: 1 as const, label: "1 mois", discount: 0 },
   { months: 3 as const, label: "3 mois", discount: 5 },
   { months: 12 as const, label: "1 an", discount: 15 },
 ];
@@ -22,7 +22,10 @@ export function SubscribeButtons({
   defaultPhone?: string;
 }) {
   const [months, setMonths] = useState<1 | 3 | 12>(1);
-  const total = monthly * months;
+  const baseTotal = monthly * months;
+  const selected = DURATIONS.find((d) => d.months === months)!;
+  const total = Math.round(baseTotal * (1 - selected.discount / 100));
+  const saved = baseTotal - total;
 
   return (
     <div className="space-y-2 pt-2">
@@ -39,21 +42,40 @@ export function SubscribeButtons({
             }`}
           >
             <p className="font-bold">{d.label}</p>
-            {d.discount && (
-              <p className="text-[9px] text-emerald-400">−{d.discount}% (à venir)</p>
+            {d.discount > 0 && (
+              <p className="text-[9px] font-bold text-emerald-400">−{d.discount}%</p>
             )}
           </button>
         ))}
       </div>
 
+      {selected.discount > 0 && (
+        <p className="rounded bg-emerald-500/10 p-1.5 text-center text-[10px] text-emerald-300">
+          ✨ Économisez {saved.toLocaleString("fr-FR")} FCFA avec l'engagement {selected.label}
+        </p>
+      )}
+
       <KpayPayModal
         trigger={
           <Button className="w-full" size="sm">
-            Souscrire — {total.toLocaleString("fr-FR")} FCFA
+            {selected.discount > 0 ? (
+              <span className="flex items-baseline gap-1.5">
+                <span className="text-muted-foreground line-through opacity-70 text-xs">
+                  {baseTotal.toLocaleString("fr-FR")}
+                </span>
+                <span>Souscrire — {total.toLocaleString("fr-FR")} FCFA</span>
+              </span>
+            ) : (
+              <span>Souscrire — {total.toLocaleString("fr-FR")} FCFA</span>
+            )}
           </Button>
         }
         title={`Abonnement ${tier} ${months} mois`}
-        description={`Activation immédiate après confirmation du paiement. Renouvellement manuel.`}
+        description={
+          selected.discount > 0
+            ? `Réduction ${selected.discount}% appliquée (${saved.toLocaleString("fr-FR")} FCFA économisés). Activation immédiate.`
+            : `Activation immédiate après confirmation du paiement.`
+        }
         amount={total}
         defaultPhone={defaultPhone}
         initiate={(phone) => initiateEscortSubscriptionAction({ tier, months, phone })}

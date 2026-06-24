@@ -5,11 +5,15 @@ import { ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SITE_NAME } from "@/lib/utils";
 
-const STORAGE_KEY = "yamo:age-confirmed";
+const STORAGE_KEY = "affiniter:age-confirmed";
 
 /**
  * Mur d'âge légal — bloque l'affichage tant que l'utilisateur n'a pas
- * confirmé être majeur (18+). État stocké dans localStorage.
+ * confirmé être majeur (18+).
+ *
+ * Stocké dans sessionStorage → réinitialisé à chaque nouvelle ouverture
+ * du site (nouvel onglet / fermeture de fenêtre / nouvelle session browser).
+ * Plus protecteur juridiquement qu'un localStorage persistant.
  */
 export function AgeGate() {
   const [mounted, setMounted] = useState(false);
@@ -17,7 +21,7 @@ export function AgeGate() {
 
   useEffect(() => {
     setMounted(true);
-    setConfirmed(localStorage.getItem(STORAGE_KEY) === "1");
+    setConfirmed(sessionStorage.getItem(STORAGE_KEY) === "1");
   }, []);
 
   if (!mounted || confirmed) return null;
@@ -42,7 +46,7 @@ export function AgeGate() {
           <Button
             size="lg"
             onClick={() => {
-              localStorage.setItem(STORAGE_KEY, "1");
+              sessionStorage.setItem(STORAGE_KEY, "1");
               setConfirmed(true);
             }}
           >
