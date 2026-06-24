@@ -112,6 +112,18 @@ export default async function HomePage() {
                 </Link>
               </Button>
             </div>
+
+            {/* Lien escort discret mais bien visible — pour qu'une escort qui visite le site
+                trouve immédiatement où s'inscrire (sans voler la place du CTA client). */}
+            <div className="mt-5 text-center text-sm text-foreground/80 drop-shadow md:mt-6">
+              <span className="opacity-80">Vous êtes escort ? </span>
+              <Link
+                href="/inscription?role=ESCORT"
+                className="font-semibold text-accent underline-offset-4 hover:underline"
+              >
+                Créer mon compte gratuit →
+              </Link>
+            </div>
           </div>
         </div>
 

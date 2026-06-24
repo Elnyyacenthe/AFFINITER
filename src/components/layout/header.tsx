@@ -59,18 +59,46 @@ export async function Header() {
             </Link>
           </Button>
 
-          {/* CTA principal adapté au rôle :
-              - Visiteur          → "Voir les annonces" (cible client, c'est 95% du trafic)
-              - CLIENT connecté   → "Voir les annonces" (même cible)
-              - ESCORT            → "Poster une annonce"
+          {/* CTA adaptés au rôle :
+              - Visiteur          → "Voir les annonces" (accent) + "Devenir escort" (outline)
+              - CLIENT connecté   → "Voir les annonces" (accent) + "Devenir escort" (outline)
+              - ESCORT            → "Poster une annonce" (accent)
               - ADMIN / MODERATOR → rien */}
-          {(!user || user.role === "CLIENT") && (
-            <Button asChild variant="accent" size="sm" className="hidden sm:inline-flex">
-              <Link href="/recherche">
-                <Flame className="mr-1" />
-                Voir les annonces
-              </Link>
-            </Button>
+          {!user && (
+            <>
+              <Button asChild variant="outline" size="sm" className="hidden md:inline-flex">
+                <Link href="/inscription?role=ESCORT">
+                  <Plus className="mr-1" />
+                  Devenir escort
+                </Link>
+              </Button>
+              <Button asChild variant="accent" size="sm" className="hidden sm:inline-flex">
+                <Link href="/recherche">
+                  <Flame className="mr-1" />
+                  Voir les annonces
+                </Link>
+              </Button>
+            </>
+          )}
+          {user?.role === "CLIENT" && (
+            <>
+              <Button asChild variant="outline" size="sm" className="hidden md:inline-flex">
+                <a
+                  href={`${process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://dashboard.affinité.com"}/client/devenir-escort`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Plus className="mr-1" />
+                  Devenir escort ↗
+                </a>
+              </Button>
+              <Button asChild variant="accent" size="sm" className="hidden sm:inline-flex">
+                <Link href="/recherche">
+                  <Flame className="mr-1" />
+                  Voir les annonces
+                </Link>
+              </Button>
+            </>
           )}
           {user?.role === "ESCORT" && (
             <Button asChild variant="accent" size="sm" className="hidden sm:inline-flex">
