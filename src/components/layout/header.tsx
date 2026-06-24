@@ -161,10 +161,7 @@ export async function Header() {
           ) : (
             <div className="flex items-center gap-2">
               <Button asChild variant="ghost" size="sm">
-                <Link href="/connexion">Connexion</Link>
-              </Button>
-              <Button asChild size="sm" className="hidden sm:inline-flex">
-                <Link href="/inscription">Inscription</Link>
+                <Link href="/connexion">Connexion escort</Link>
               </Button>
             </div>
           )}

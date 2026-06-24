@@ -109,7 +109,7 @@ export async function registerAction(_prev: AuthState | null, formData: FormData
       fieldErrors: parsed.error.flatten().fieldErrors,
     };
   }
-  const { name, email, phone, password, role, tier, referralCode } = parsed.data;
+  const { name, email, phone, password, role, referralCode } = parsed.data;
   const cleanedPhone = phone.replace(/\s/g, "").replace(/^237/, "+237");
 
   // Anti-doublon (email, téléphone)
@@ -172,17 +172,10 @@ export async function registerAction(_prev: AuthState | null, formData: FormData
   // Auto-login
   await signIn("credentials", { identifier: email, password, redirect: false });
 
-  // Si tier payant choisi → étape paiement (côté dashboard externe)
-  if (role === "ESCORT" && (tier === "PREMIUM" || tier === "VIP")) {
-    const priceKey = tier === "VIP" ? "pricing.vip.amount" : "pricing.premium.amount";
-    const amount = await getSettingNumber(priceKey, tier === "VIP" ? 15000 : 5000);
-    const dashboardBase =
-      process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://dashboard.affiniter.cm";
-    return {
-      ok: true,
-      redirectTo: `${dashboardBase}/escort/portefeuille/payer?tier=${tier}&amount=${amount}`,
-      nextStep: { type: "PAYMENT", tier, amount },
-    };
+  // v3 — Tous les nouveaux comptes ESCORT vont vers /escort/abonnement
+  // (sans abonnement actif, ils ne peuvent rien faire).
+  if (role === "ESCORT") {
+    return { ok: true, redirectTo: "/escort/abonnement" };
   }
 
   return { ok: true, redirectTo: destinationForRole(role) };
