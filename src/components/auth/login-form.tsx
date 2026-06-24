@@ -23,8 +23,8 @@ export function LoginForm() {
       toast.success("Connexion réussie 👋");
       // Le serveur a déterminé où renvoyer l'utilisateur selon son rôle :
       //   - ADMIN/MODERATOR → "/admin" (interne)
-      //   - ESCORT          → "https://dashboard.affiniter.cm/escort/dashboard" (externe)
-      //   - CLIENT          → "https://dashboard.affiniter.cm/client" (externe)
+      //   - ESCORT          → "https://dashboard.affinité.com/escort/dashboard" (externe)
+      //   - CLIENT          → "https://dashboard.affinité.com/client" (externe)
       const target = state.redirectTo ?? "/";
       window.location.assign(target);
     } else if (state && !state.ok) {

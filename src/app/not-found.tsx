@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 export default function NotFound() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4 text-center">
-      <Image src="/icon.svg" alt="Affiniter" width={64} height={64} />
+      <Image src="/icon.svg" alt="Affinité" width={64} height={64} />
       <h1 className="mt-4 font-display text-7xl font-bold gradient-text">404</h1>
       <p className="mt-2 text-xl">Cette page s'est volatilisée…</p>
       <p className="mt-2 max-w-md text-sm text-muted-foreground">

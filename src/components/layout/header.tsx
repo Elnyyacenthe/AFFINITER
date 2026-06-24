@@ -69,7 +69,7 @@ export async function Header() {
           {user?.role === "CLIENT" && (
             <Button asChild variant="accent" size="sm" className="hidden sm:inline-flex">
               <a
-                href={`${process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://dashboard.affiniter.cm"}/client/devenir-escort`}
+                href={`${process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://dashboard.affinité.com"}/client/devenir-escort`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -100,8 +100,8 @@ export async function Header() {
                 </button>
               </DropdownMenuTrigger>
               {/* Routing par rôle :
-                  - ADMIN/MODERATOR → dashboard.affiniter.cm (back-office externe)
-                  - ESCORT / CLIENT → /escort ou /client (interne affiniter.cm) */}
+                  - ADMIN/MODERATOR → dashboard.affinité.com (back-office externe)
+                  - ESCORT / CLIENT → /escort ou /client (interne affinité.com) */}
               {(() => {
                 return (
                   <DropdownMenuContent align="end" className="w-60">
@@ -143,7 +143,7 @@ export async function Header() {
                       <DropdownMenuItem asChild>
                         <a
                           href={
-                            process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://dashboard.affiniter.cm"
+                            process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://dashboard.affinité.com"
                           }
                           target="_blank"
                           rel="noopener noreferrer"

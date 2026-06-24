@@ -35,7 +35,7 @@ export default async function SupportListPage() {
               <MessageSquare className="mr-2 inline h-7 w-7 text-primary" /> Mes tickets support
             </h1>
             <p className="text-sm text-muted-foreground">
-              Posez vos questions à l'équipe Affiniter, suivez vos demandes.
+              Posez vos questions à l'équipe Affinité, suivez vos demandes.
             </p>
           </div>
           <Button asChild>

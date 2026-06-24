@@ -84,7 +84,7 @@ export default async function VerificationPage() {
                 <li>Photo nette du <strong>verso</strong> (si CNI)</li>
                 <li>
                   <strong>Selfie</strong> en train de tenir votre pièce d'identité, avec une feuille datée
-                  d'aujourd'hui où vous avez écrit "Affiniter" + la date
+                  d'aujourd'hui où vous avez écrit "Affinité" + la date
                 </li>
                 <li>Vos données sont chiffrées et ne sont visibles que par l'équipe de modération</li>
               </ul>

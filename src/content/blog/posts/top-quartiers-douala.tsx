@@ -18,7 +18,7 @@ export const post: BlogPost = {
       "ndolo bonanjo",
       "rencontre douala 2026",
     ],
-    author: "Équipe Affiniter",
+    author: "Équipe Affinité",
   },
   content: () => (
     <>
@@ -54,7 +54,7 @@ export const post: BlogPost = {
       <p>
         Quartier populaire avec une forte activité d'escortes <em>"freelance"</em> autour des
         snacks et des bars d'angle. Tarifs très accessibles : <strong>5 000 à 10 000 FCFA/h</strong>.
-        À privilégier seulement avec un profil vérifié sur Affiniter.
+        À privilégier seulement avec un profil vérifié sur Affinité.
       </p>
 
       <h2>5. Makepe — Le résidentiel récent</h2>
@@ -81,7 +81,7 @@ export const post: BlogPost = {
       <h2>8. New-Bell — L'underground</h2>
       <p>
         À aborder avec prudence. Zone très populaire, à éviter pour les touristes et les profils
-        non-aguerris. Restez sur les profils vérifiés Affiniter si vous y allez.
+        non-aguerris. Restez sur les profils vérifiés Affinité si vous y allez.
       </p>
 
       <h2>9. Logbessou — Le résidentiel</h2>
@@ -116,7 +116,7 @@ export const post: BlogPost = {
       <h2>Conclusion</h2>
       <p>
         Quel que soit le quartier que vous choisissez, vérifiez toujours le badge "Vérifiée" du
-        profil avant de prendre RDV. Sur Affiniter, vous filtrez les annonces par quartier
+        profil avant de prendre RDV. Sur Affinité, vous filtrez les annonces par quartier
         directement depuis la page Douala — pratique pour planifier votre soirée.
       </p>
     </>

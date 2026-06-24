@@ -18,13 +18,13 @@ export const post: BlogPost = {
       "prix ndolo",
       "tarif nuit complète escort",
     ],
-    author: "Équipe Affiniter",
+    author: "Équipe Affinité",
   },
   content: () => (
     <>
       <p className="lead">
         Combien faut-il prévoir pour passer un moment avec une escort au Cameroun en 2026 ? Voici
-        les prix réels constatés sur Affiniter, classés par ville, durée et type de service.
+        les prix réels constatés sur Affinité, classés par ville, durée et type de service.
         Aucun marketing — juste les chiffres terrain.
       </p>
 
@@ -59,7 +59,7 @@ export const post: BlogPost = {
           </tr>
         </tbody>
       </table>
-      <p className="text-xs text-muted-foreground">Tous prix en FCFA. Données Affiniter Q2 2026.</p>
+      <p className="text-xs text-muted-foreground">Tous prix en FCFA. Données Affinité Q2 2026.</p>
 
       <h2>Prix selon la durée</h2>
       <ul>
@@ -81,7 +81,7 @@ export const post: BlogPost = {
       </ul>
 
       <h2>Facteurs qui font varier le prix</h2>
-      <h3>Le tier sur Affiniter</h3>
+      <h3>Le tier sur Affinité</h3>
       <p>
         Une escorte <strong>STANDARD</strong> facture en moyenne 30% moins qu'une <strong>PREMIUM
         </strong>, et 50% moins qu'une <strong>VIP</strong> ou <strong>DIAMOND</strong>. Le tier
@@ -111,7 +111,7 @@ export const post: BlogPost = {
         <li>Couple / soirée VIP : tarifs sur devis, généralement à partir de 50 000 FCFA</li>
       </ul>
 
-      <h2>Frais Affiniter à prévoir</h2>
+      <h2>Frais Affinité à prévoir</h2>
       <ul>
         <li>
           <strong>Révélation contact</strong> : 1 000 FCFA par numéro WhatsApp débloqué (paiement
@@ -123,7 +123,7 @@ export const post: BlogPost = {
         </li>
       </ul>
       <p>
-        Ces frais reviennent à Affiniter pour la modération et la vérification des profils. Ce
+        Ces frais reviennent à Affinité pour la modération et la vérification des profils. Ce
         sont les seuls montants qui passent par notre plateforme — tout le reste se règle en cash
         directement avec l'escorte.
       </p>
@@ -139,7 +139,7 @@ export const post: BlogPost = {
       <h2>Conclusion : budget réaliste 2026</h2>
       <p>
         Pour un RDV standard à Douala ou Yaoundé : <strong>15 000 FCFA (heure) + 1 000 FCFA
-        (reveal Affiniter) = 16 000 FCFA total</strong>. Pour une nuit complète VIP à Kribi en
+        (reveal Affinité) = 16 000 FCFA total</strong>. Pour une nuit complète VIP à Kribi en
         haute saison : prévoyez 100 000 — 150 000 FCFA.
       </p>
       <p>

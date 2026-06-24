@@ -295,7 +295,7 @@ export default function TermsPage() {
                 Les présentes Conditions Générales d'Utilisation (« CGU ») constituent un contrat
                 juridiquement contraignant entre vous (« vous », « l'Utilisateur ») et la société
                 éditrice de la plateforme {SITE_NAME} (« nous », « la Plateforme »), accessible à
-                l'adresse <Link href="/" className="text-primary underline-offset-2 hover:underline">affiniter.cm</Link>.
+                l'adresse <Link href="/" className="text-primary underline-offset-2 hover:underline">affinité.com</Link>.
               </P>
               <P>
                 En cochant la case « J'accepte les CGU » lors de l'inscription, en créant un compte
@@ -583,7 +583,7 @@ export default function TermsPage() {
                 <LI>Frais de transaction K-Pay (2%) déduits du montant.</LI>
                 <LI>Dépôts <strong>définitifs et non remboursables</strong> (sauf erreur technique prouvée).</LI>
                 <LI>Retraits traités sous 24h ouvrées, sauf vérification anti-fraude.</LI>
-                <LI>Le Wallet n'a pas vocation d'épargne : il sert à payer les options Affiniter ou être retiré.</LI>
+                <LI>Le Wallet n'a pas vocation d'épargne : il sert à payer les options Affinité ou être retiré.</LI>
                 <LI>Aucun intérêt n'est versé sur le solde du Wallet.</LI>
               </UL>
               <SubTitle>Wallet dormant</SubTitle>
@@ -708,9 +708,9 @@ export default function TermsPage() {
               <SubTitle>Pour la sécurité du compte</SubTitle>
               <UL>
                 <LI>Mot de passe unique de 12+ caractères mixant lettres, chiffres et symboles.</LI>
-                <LI>Ne réutilisez pas votre mot de passe Affiniter ailleurs.</LI>
+                <LI>Ne réutilisez pas votre mot de passe Affinité ailleurs.</LI>
                 <LI>Ne le partagez jamais, ni par email ni par téléphone.</LI>
-                <LI>Vérifiez l'URL <strong>https://affiniter.cm</strong> avant de saisir vos identifiants.</LI>
+                <LI>Vérifiez l'URL <strong>https://affinité.com</strong> avant de saisir vos identifiants.</LI>
                 <LI>Déconnectez-vous des appareils partagés.</LI>
               </UL>
               <SubTitle>Pour les rencontres physiques</SubTitle>

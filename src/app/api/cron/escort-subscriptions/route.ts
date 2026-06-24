@@ -80,7 +80,7 @@ export async function GET(req: Request) {
       data: {
         userId: u.id,
         title: "Abonnement expiré",
-        body: `Votre abonnement Affiniter a expiré. Toutes vos annonces ont été mises en pause. Renouvelez pour les réactiver.`,
+        body: `Votre abonnement Affinité a expiré. Toutes vos annonces ont été mises en pause. Renouvelez pour les réactiver.`,
         link: "/escort/abonnement",
       },
     });

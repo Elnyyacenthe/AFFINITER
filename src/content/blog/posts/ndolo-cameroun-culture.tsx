@@ -18,7 +18,7 @@ export const post: BlogPost = {
       "histoire prostitution cameroun",
       "vocabulaire 237",
     ],
-    author: "Équipe Affiniter",
+    author: "Équipe Affinité",
   },
   content: () => (
     <>
@@ -99,7 +99,7 @@ export const post: BlogPost = {
         Pénal (articles 343 et suivants).
       </p>
       <p>
-        Une escorte indépendante qui rencontre ses clients via Affiniter (et donc sans racolage
+        Une escorte indépendante qui rencontre ses clients via Affinité (et donc sans racolage
         physique) opère dans une zone juridique tolérée. C'est précisément la raison pour laquelle
         notre plateforme est légale et fonctionne en toute transparence.
       </p>
@@ -107,21 +107,21 @@ export const post: BlogPost = {
       <h2>Le ndolo numérique : la révolution silencieuse</h2>
       <p>
         Internet a transformé le ndolo camerounais en profondeur. Là où il fallait autrefois traîner
-        dans les bars d'Akwa ou Bastos, aujourd'hui un simple scroll sur Affiniter permet de filtrer
+        dans les bars d'Akwa ou Bastos, aujourd'hui un simple scroll sur Affinité permet de filtrer
         par ville, quartier, services, tarif. Les escortes contrôlent leur image et leurs RDV;
         les clients comparent et choisissent en quelques minutes.
       </p>
       <p>
-        Plus important : <strong>la vérification d'identité Affiniter</strong> a résolu le problème
+        Plus important : <strong>la vérification d'identité Affinité</strong> a résolu le problème
         des arnaques classiques (faux profils, photos volées, complices cachés). Les escortes
-        vérifiées ont un intérêt à respecter leur réputation — Affiniter centralise leurs
+        vérifiées ont un intérêt à respecter leur réputation — Affinité centralise leurs
         évaluations et leurs signalements éventuels.
       </p>
 
       <h2>Conclusion</h2>
       <p>
         Le ndolo camerounais a parcouru beaucoup de chemin : d'un mot d'amour duala détourné, à
-        une industrie professionnalisée encadrée par des plateformes comme Affiniter. Comprendre
+        une industrie professionnalisée encadrée par des plateformes comme Affinité. Comprendre
         ce mot, c'est comprendre une partie de la culture urbaine camerounaise contemporaine.
       </p>
     </>

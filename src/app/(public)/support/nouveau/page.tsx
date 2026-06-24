@@ -13,7 +13,7 @@ export default async function NewTicketPage() {
       <div className="mx-auto max-w-2xl">
         <h1 className="font-display text-3xl font-bold">Nouveau ticket support</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          L'équipe Affiniter vous répond généralement sous 24h ouvrées.
+          L'équipe Affinité vous répond généralement sous 24h ouvrées.
         </p>
         <Card className="mt-6">
           <CardContent className="p-6">

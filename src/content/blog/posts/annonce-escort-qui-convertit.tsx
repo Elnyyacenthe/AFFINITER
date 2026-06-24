@@ -17,14 +17,14 @@ export const post: BlogPost = {
       "annonce escort qui marche",
       "tips escort indépendante cameroun",
     ],
-    author: "Équipe Affiniter",
+    author: "Équipe Affinité",
   },
   content: () => (
     <>
       <p className="lead">
         Si tu es escorte indépendante au Cameroun et que tu te demandes pourquoi ton annonce ne
         décolle pas, ce guide est pour toi. On a analysé les 1 000 annonces les plus performantes
-        d'Affiniter pour en extraire la recette qui marche. Spoiler : ce n'est pas la chance.
+        d'Affinité pour en extraire la recette qui marche. Spoiler : ce n'est pas la chance.
       </p>
 
       <h2>1. Le titre : 7 mots qui vendent</h2>
@@ -79,7 +79,7 @@ export const post: BlogPost = {
 
       <h2>3. Les photos : qualité &gt; quantité</h2>
       <p>
-        Affiniter te permet jusqu'à 15 photos en VIP, mais <strong>5 photos excellentes valent
+        Affinité te permet jusqu'à 15 photos en VIP, mais <strong>5 photos excellentes valent
         mieux que 15 médiocres</strong>. Recommandations :
       </p>
       <ul>
@@ -90,7 +90,7 @@ export const post: BlogPost = {
       </ul>
       <p>
         <strong>À éviter</strong> : photos floues, mauvaise lumière, fond bordélique, filtre
-        Snapchat exagéré, photos volées sur Internet (Affiniter détecte automatiquement les
+        Snapchat exagéré, photos volées sur Internet (Affinité détecte automatiquement les
         doublons depuis 2026).
       </p>
 
@@ -115,7 +115,7 @@ export const post: BlogPost = {
 
       <h2>6. Booste intelligemment</h2>
       <p>
-        Affiniter propose plusieurs options de mise en avant :
+        Affinité propose plusieurs options de mise en avant :
       </p>
       <ul>
         <li>
@@ -150,7 +150,7 @@ export const post: BlogPost = {
       <h2>8. Les services : sois précise, sans crudité</h2>
       <p>
         Lister "massage, accompagnement, GFE" est plus efficace que des descriptions explicites.
-        Affiniter modère le contenu explicite, alors restes dans la suggestion : "moments intimes",
+        Affinité modère le contenu explicite, alors restes dans la suggestion : "moments intimes",
         "détente complète", "sensualité raffinée".
       </p>
 

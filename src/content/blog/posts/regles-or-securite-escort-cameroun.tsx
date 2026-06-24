@@ -17,7 +17,7 @@ export const post: BlogPost = {
       "premier rdv escort",
       "sécurité rencontre adulte cameroun",
     ],
-    author: "Équipe Affiniter",
+    author: "Équipe Affinité",
   },
   content: () => (
     <>
@@ -29,7 +29,7 @@ export const post: BlogPost = {
 
       <h2>1. Vérifiez systématiquement le badge "Vérifiée"</h2>
       <p>
-        Sur Affiniter, les profils ayant soumis leur pièce d'identité affichent un badge bleu
+        Sur Affinité, les profils ayant soumis leur pièce d'identité affichent un badge bleu
         <strong> Vérifiée</strong>. Notre équipe a confirmé que la personne existe réellement, que
         la pièce d'identité est valide et qu'elle n'est pas dans notre liste noire. Privilégiez
         toujours ces profils — vos risques diminuent de 80%.
@@ -83,7 +83,7 @@ export const post: BlogPost = {
         repartez immédiatement.
       </p>
 
-      <h2>9. Utilisez les outils de signalement Affiniter</h2>
+      <h2>9. Utilisez les outils de signalement Affinité</h2>
       <p>
         Si quelque chose tourne mal — escort qui ne ressemble pas à ses photos, demande d'argent
         supplémentaire, comportement menaçant — utilisez le bouton "Signaler" sur l'annonce. Notre
@@ -100,7 +100,7 @@ export const post: BlogPost = {
       <h2 className="mt-10">Conclusion</h2>
       <p>
         La sécurité dans les rencontres adultes au Cameroun repose sur le bon sens et quelques
-        protocoles simples. En respectant ces 10 règles, vous éliminez 95% des risques. Affiniter
+        protocoles simples. En respectant ces 10 règles, vous éliminez 95% des risques. Affinité
         s'engage à fournir une plateforme sécurisée, mais votre vigilance reste votre meilleure
         protection.
       </p>

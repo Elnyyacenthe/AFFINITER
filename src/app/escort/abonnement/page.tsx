@@ -94,7 +94,7 @@ export default async function EscortAbonnementPage() {
             <div>
               <p className="font-semibold">Aucun abonnement actif</p>
               <p className="text-sm text-muted-foreground">
-                Vous ne pouvez pas publier d'annonce. Souscrivez à l'un des plans ci-dessous pour activer votre compte escort sur Affiniter.
+                Vous ne pouvez pas publier d'annonce. Souscrivez à l'un des plans ci-dessous pour activer votre compte escort sur Affinité.
               </p>
             </div>
           </CardContent>

@@ -26,7 +26,7 @@ export function ContactCard({ adId, whatsappPhone, callPhone, adTitle }: Props) 
 
     const cleanWa = whatsappPhone.replace(/\s/g, "").replace(/^\+/, "");
     const waUrl = `https://wa.me/${cleanWa}?text=${encodeURIComponent(
-      `Bonjour, je vous écris au sujet de votre annonce "${adTitle}" sur Affiniter.`,
+      `Bonjour, je vous écris au sujet de votre annonce "${adTitle}" sur Affinité.`,
     )}`;
     window.open(waUrl, "_blank", "noopener,noreferrer");
     setTimeout(() => setOpening(false), 800);
