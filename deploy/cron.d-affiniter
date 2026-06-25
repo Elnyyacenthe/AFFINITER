@@ -1,0 +1,34 @@
+# Crons Affiniter — copie versionnée de /etc/cron.d/affiniter.
+# Géré par : repo affiniter (deploy/cron.d-affiniter)
+#
+# Installation / mise à jour sur le serveur :
+#   sudo cp /var/www/affiniter/deploy/cron.d-affiniter /etc/cron.d/affiniter
+#   sudo chown root:root /etc/cron.d/affiniter
+#   sudo chmod 644 /etc/cron.d/affiniter
+#   sudo systemctl reload cron 2>/dev/null || sudo service cron reload
+#
+# Voir deploy/README.md pour le rationale (pourquoi /etc/cron.d/ plutôt que crontab -u).
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# K-Pay : réconciliation des paiements PENDING / appliquer les intents (CRITIQUE).
+*/5 * * * * root /var/www/affiniter/run-cron.sh reconcile-payments
+
+# Expiration des boosts STICKY / PROMOTED.
+0 * * * * root /var/www/affiniter/run-cron.sh expire-boosts
+
+# Auto-renouvellement des abonnements escortes (re-prélève K-Pay si autoRenew=true).
+15 * * * * root /var/www/affiniter/run-cron.sh auto-renew
+
+# Abonnements escortes : notif J-3 + désactivation à l'expiration.
+30 7 * * * root /var/www/affiniter/run-cron.sh escort-subscriptions
+
+# Notifs J-3 expiration des annonces.
+0 8 * * * root /var/www/affiniter/run-cron.sh notify-expiring
+
+# Suggestion d'upgrade tier (annonces qui plafonnent en vues).
+30 8 * * * root /var/www/affiniter/run-cron.sh suggest-upgrade
+
+# Alerte revenus quotidienne (notif admin).
+0 9 * * * root /var/www/affiniter/run-cron.sh revenue-alert

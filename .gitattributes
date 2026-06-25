@@ -1,0 +1,8 @@
+# Force LF line endings on shell scripts — bash refuse CRLF avec "bad interpreter".
+*.sh text eol=lf
+
+# Force LF sur les fichiers de config cron.d (Linux strict).
+deploy/cron.d-* text eol=lf
+
+# Lockfiles : restent dans leur encoding natif.
+package-lock.json -text
