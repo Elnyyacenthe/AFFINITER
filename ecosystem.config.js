@@ -4,7 +4,7 @@ module.exports = {
       name: "affiniter",
       cwd: "/var/www/affiniter",
       script: "node_modules/.bin/next",
-      args: "start -p 3000",
+      args: "start -H 127.0.0.1 -p 3000",
       instances: 1,
       exec_mode: "fork",
       autorestart: true,
